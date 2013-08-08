@@ -1,0 +1,32 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent" >
+
+<Button
+    android:id="@+id/startserviceBtn"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentTop="true"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="14dp"
+    android:text="startservice" />
+
+<Button
+    android:id="@+id/stopserviceBtn"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignLeft="@+id/startserviceBtn"
+    android:layout_below="@+id/startserviceBtn"
+    android:layout_marginTop="38dp"
+    android:text="stopservice" />
+
+<Button
+    android:id="@+id/configBtn"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignLeft="@+id/stopserviceBtn"
+    android:layout_below="@+id/stopserviceBtn"
+    android:layout_marginTop="38dp"
+    android:text="config" />
+</RelativeLayout>

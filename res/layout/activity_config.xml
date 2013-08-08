@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:orientation="vertical"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+>
+ <TextView 
+    android:text="Choose the profile mode you to change on event period"
+	android:id="@+id/textView1"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content">
+</TextView>
+    <RadioGroup
+        android:id="@+id/radiogroup_mode"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:orientation="vertical">
+    <RadioButton android:id="@+id/radio_vibrate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="VIBRATE"
+        android:onClick="onRadioButtonClicked"/>
+    <RadioButton android:id="@+id/radio_normal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="NORMAL"
+        android:onClick="onRadioButtonClicked"/>
+    <RadioButton android:id="@+id/radio_silent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SILENT"
+        android:onClick="onRadioButtonClicked"/>
+</RadioGroup>
+
+<Button
+    android:id="@+id/saveBtn"
+    android:onClick="saveClicked"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:text="Save"/>
+
+</LinearLayout>
