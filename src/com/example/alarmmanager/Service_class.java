@@ -1,7 +1,10 @@
 package com.example.alarmmanager;
 
 import java.security.PublicKey;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import android.app.Notification;
 import android.app.Notification.Builder;
@@ -39,6 +42,8 @@ public class Service_class extends Service {
         final int mId = 1014;
 		String str_disp = "";
 		String mode_changed = "no";
+		String to_push="";
+		ArrayList<String> Accounts_list=new ArrayList<String>();
 		//String prev_mode_changed = "no";
 		final NotificationCompat.Builder mBuilder =
 		        new NotificationCompat.Builder(this)
@@ -48,8 +53,12 @@ public class Service_class extends Service {
 		Cursor mCursor = getContentResolver().query(calendaruri, null, null, null, null);
 		if(mCursor.getCount()>0)
 		 {
-			SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this); 
+			SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+			SharedPreferences.Editor settingsEditor = settings.edit();
+			//get prefer mode
 			String modeToSet = settings.getString("configMode", "VIBRATE");
+			
+			
 			mCursor.moveToFirst();
 			/////////
 			/*
@@ -69,6 +78,21 @@ public class Service_class extends Service {
 						 +"\nStart -Date : "+ mCursor.getLong(mCursor.getColumnIndex("dtstart"))
 						 +"\nEnd -- Date : "+ mCursor.getLong(mCursor.getColumnIndex("dtend"))
 						 +"\ncurrentTime: "+currentTime+"\n __________________ \n\n";*/
+				 //store the account in to array list
+				 if(!to_push.equals(mCursor.getString(mCursor.getColumnIndex("account_name"))))
+				 {
+					 to_push =mCursor.getString(mCursor.getColumnIndex("account_name"));
+					 if(!Accounts_list.contains(to_push))
+					 {
+						 Accounts_list.add(to_push);
+					 }
+					 /*for (String s : Accounts_list) { 
+						 //check if account exist in array
+						   if (!s.contains(to_push)) {
+							   Accounts_list.add(mCursor.getString(mCursor.getColumnIndex("account_name")));
+						   }
+						}*/
+				 }
 				 
 					 if((currentTime >= mCursor.getLong(mCursor.getColumnIndex("dtstart")) ) && (currentTime <= mCursor.getLong(mCursor.getColumnIndex("dtend"))))
 					 {
@@ -89,6 +113,18 @@ public class Service_class extends Service {
 					 }*/
 
 			 }
+			 
+			 //Store the account list in to SharedPreferences
+			 if(Accounts_list.size() >0)
+			 {
+				 for(int i=0;i<Accounts_list.size();i++)
+				 {
+					 settingsEditor.putString("acc"+i,Accounts_list.get(i));
+				 }
+				 settingsEditor.putInt("accounts_list_size",Accounts_list.size());
+				 settingsEditor.commit();
+			 }
+			 
 			 if(vibrate==1)
 			 {
 				//change profile mode to user preferred mode when there is an event

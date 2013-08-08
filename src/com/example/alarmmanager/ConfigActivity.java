@@ -47,7 +47,30 @@ public class ConfigActivity extends Activity {
         	break;
         default:
         	break;
-		}		
+		}
+		//create radio button for account list
+		
+		RadioGroup account_rgroup=(RadioGroup)findViewById(R.id.radiogroup_account_list);
+		RadioButton rb;
+		//get array size of stored account list
+		int account_list_size = settings.getInt("accounts_list_size", 0);
+		if(account_list_size>0)
+		{
+			String acc_name="";
+			for(int i=0; i<account_list_size; i++)
+			{
+				//get account name
+				acc_name = settings.getString("acc"+i, null);
+				if(acc_name != null)
+				{
+					rb=new RadioButton(this);
+				       rb.setText(acc_name);
+				       rb.setId(i);
+				       account_rgroup.addView(rb);
+				}
+				           
+			}
+		}
 	}
 	public void saveClicked(View view)
 	{
