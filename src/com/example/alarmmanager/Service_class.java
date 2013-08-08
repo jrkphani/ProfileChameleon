@@ -78,7 +78,7 @@ public class Service_class extends Service {
 						 //audio.setRingerMode(audio.RINGER_MODE_VIBRATE);
 						 //Toast.makeText(getApplicationContext(), mCursor.getString(mCursor.getColumnIndex("account_name")), Toast.LENGTH_SHORT).show();
 					 }
-					 else
+					/* else
 					 {
 						 if(vibrate !=1)
 						 {
@@ -86,7 +86,7 @@ public class Service_class extends Service {
 						 //audio.setRingerMode(audio.RINGER_MODE_NORMAL);
 						// Toast.makeText(getApplicationContext(), "n", Toast.LENGTH_SHORT).show();
 						 }
-					 }
+					 }*/
 
 			 }
 			 if(vibrate==1)
