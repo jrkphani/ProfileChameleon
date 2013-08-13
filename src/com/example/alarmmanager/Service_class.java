@@ -82,16 +82,11 @@ public class Service_class extends Service {
 				 if(!to_push.equals(mCursor.getString(mCursor.getColumnIndex("account_name"))))
 				 {
 					 to_push =mCursor.getString(mCursor.getColumnIndex("account_name"));
+					//check if account exist in array
 					 if(!Accounts_list.contains(to_push))
 					 {
 						 Accounts_list.add(to_push);
 					 }
-					 /*for (String s : Accounts_list) { 
-						 //check if account exist in array
-						   if (!s.contains(to_push)) {
-							   Accounts_list.add(mCursor.getString(mCursor.getColumnIndex("account_name")));
-						   }
-						}*/
 				 }
 				 
 					 if((currentTime >= mCursor.getLong(mCursor.getColumnIndex("dtstart")) ) && (currentTime <= mCursor.getLong(mCursor.getColumnIndex("dtend"))))
