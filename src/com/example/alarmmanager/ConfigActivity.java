@@ -14,7 +14,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -50,7 +52,7 @@ public class ConfigActivity extends Activity {
 		}
 		//create radio button for account list
 		
-		RadioGroup account_rgroup=(RadioGroup)findViewById(R.id.radiogroup_account_list);
+		/*RadioGroup account_rgroup=(RadioGroup)findViewById(R.id.radiogroup_account_list);
 		RadioButton rb;
 		//get array size of stored account list
 		int account_list_size = settings.getInt("accounts_list_size", 0);
@@ -70,7 +72,33 @@ public class ConfigActivity extends Activity {
 				}
 				           
 			}
-		}
+		}*/
+		
+		
+		
+		//create checkbox for account list
+		CheckBox rb ;
+		LinearLayout parentLinear = (LinearLayout)findViewById(R.id.parent_linear);
+		//get array size of stored account list
+				int account_list_size = settings.getInt("accounts_list_size", 0);
+				if(account_list_size>0)
+				{
+					String acc_name="";
+					for(int i=0; i<account_list_size; i++)
+					{
+						//get account name
+						acc_name = settings.getString("acc"+i, null);
+						if(acc_name != null)
+						{
+							rb = new CheckBox(this);
+						       rb.setText(acc_name);
+						       rb.setId(i);
+						       parentLinear.addView(rb);
+						       //this.setContentView(rb);
+						}
+						           
+					}
+				}
 	}
 	public void saveClicked(View view)
 	{
