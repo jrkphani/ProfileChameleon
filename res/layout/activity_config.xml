@@ -12,12 +12,7 @@ android:layout_height="fill_parent"
                   android:layout_height="wrap_content"
                   
                   android:orientation="vertical">
-                  <LinearLayout 
-                       	android:layout_width="wrap_content"
-                  		android:layout_height="wrap_content"
-                      	android:id="@+id/parent_linear"
-                      	android:orientation="vertical">
-                      <TextView 
+                  <TextView 
 						    android:text="Choose the profile mode you to change on event period"
 							android:id="@+id/textView1"
 							android:layout_width="wrap_content"
@@ -44,17 +39,24 @@ android:layout_height="fill_parent"
 						        android:text="SILENT"
 						        android:onClick="onRadioButtonClicked"/>
 						</RadioGroup>
+                  <LinearLayout 
+                       	android:layout_width="wrap_content"
+                  		android:layout_height="wrap_content"
+                      	android:id="@+id/parent_linear"
+                      	android:orientation="vertical">
+                      
 						<TextView 
 						    android:text="Choose the acounts"
-							android:id="@+id/textView1"
+							android:id="@+id/Account_list_title"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content">
 						</TextView>
-						<RadioGroup 
-						            android:id="@+id/radiogroup_account_list"
-						            android:layout_width="wrap_content"
-						            android:layout_height="wrap_content" > 
-						   </RadioGroup>
+						<CheckBox android:text="All"
+						    android:layout_width="wrap_content"
+						    android:layout_height="wrap_content"
+						    android:id="@+id/all_acount"
+						    android:visibility="invisible"
+						    />
                   </LinearLayout>
 				 
 				<Button
