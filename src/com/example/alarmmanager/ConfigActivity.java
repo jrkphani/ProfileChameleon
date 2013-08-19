@@ -149,12 +149,12 @@ public class ConfigActivity extends Activity {
 								if (((CheckBox) v).isChecked())
 								{
 									checkedAccounts.put(acc_txt,acc_txt);
-									Toast.makeText(getBaseContext(),"added",Toast.LENGTH_SHORT).show();
+									//Toast.makeText(getBaseContext(),"added",Toast.LENGTH_SHORT).show();
 								}
 								else
 								{
 									checkedAccounts.remove(acc_txt);
-									Toast.makeText(getBaseContext(),"removed",Toast.LENGTH_SHORT).show();
+									//Toast.makeText(getBaseContext(),"removed",Toast.LENGTH_SHORT).show();
 								}
 							}
 				       });
