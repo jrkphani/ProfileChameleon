@@ -12,7 +12,12 @@ android:layout_height="fill_parent"
                   android:layout_height="wrap_content"
                   
                   android:orientation="vertical">
-                  <TextView 
+                  <LinearLayout 
+                       	android:layout_width="wrap_content"
+                  		android:layout_height="wrap_content"
+                      	android:id="@+id/parent_linear"
+                      	android:orientation="vertical">
+                      <TextView 
 						    android:text="Choose the profile mode you to change on event period"
 							android:id="@+id/textView1"
 							android:layout_width="wrap_content"
@@ -39,12 +44,6 @@ android:layout_height="fill_parent"
 						        android:text="SILENT"
 						        android:onClick="onRadioButtonClicked"/>
 						</RadioGroup>
-                  <LinearLayout 
-                       	android:layout_width="wrap_content"
-                  		android:layout_height="wrap_content"
-                      	android:id="@+id/parent_linear"
-                      	android:orientation="vertical">
-                      
 						<TextView 
 						    android:text="Choose the acounts"
 							android:id="@+id/Account_list_title"
