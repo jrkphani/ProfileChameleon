@@ -44,6 +44,8 @@ public class ConfigActivity extends Activity {
 		int j=0;
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this); 
 		String modeToSet = settings.getString("configMode", "VIBRATE");
+		final CheckBox all_acount = (CheckBox)findViewById(R.id.all_acount);
+		final LinearLayout parentLinear = (LinearLayout)findViewById(R.id.parent_linear);
 		/*Log.d("cuurent mode","=======================" );
 		Log.d("cuurent mode",modeToSet );*/
 		RadioButton radioToCkeck;
@@ -65,12 +67,26 @@ public class ConfigActivity extends Activity {
         	break;
 		}
 		
-		
+		/*all_acount.setOnClickListener(new OnClickListener() {
+			
+			@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					if (((CheckBox) v).isChecked())
+					{
+						parentLinear.setVisibility(0);
+					}
+					else
+					{
+						parentLinear.setVisibility(1);
+					}				
+				}
+			});*/
 		
 		//create checkbox for account list
 		CheckBox rb ;
 		int account_selected_all = settings.getInt("accounts_selected_all", 0);
-		LinearLayout parentLinear = (LinearLayout)findViewById(R.id.parent_linear);
+		
 		//get array size of stored account list
 		Uri calendaruri = Uri.parse("content://com.android.calendar/events");
 		Cursor mCursor = getContentResolver().query(calendaruri, null, null, null, null);
@@ -91,7 +107,6 @@ public class ConfigActivity extends Activity {
 			 }
 			if(Accounts_list.size() >0)
 			 {
-				CheckBox all_acount = (CheckBox)findViewById(R.id.all_acount);
 				all_acount.setVisibility(1);
 				int accounts_selected_size = settings.getInt("accounts_selected_size", 0);
 				 for(i=0;i<Accounts_list.size();i++)
@@ -130,6 +145,7 @@ public class ConfigActivity extends Activity {
 							public void onClick(View v) {
 								// TODO Auto-generated method stub
 								String acc_txt = ((CheckBox) v).getText().toString();
+								all_acount.setChecked(false);
 								if (((CheckBox) v).isChecked())
 								{
 									checkedAccounts.put(acc_txt,acc_txt);
