@@ -67,21 +67,21 @@ public class ConfigActivity extends Activity {
         	break;
 		}
 		
-		/*all_acount.setOnClickListener(new OnClickListener() {
+		all_acount.setOnClickListener(new OnClickListener() {
 			
 			@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
 					if (((CheckBox) v).isChecked())
 					{
-						parentLinear.setVisibility(0);
+						parentLinear.setVisibility(View.INVISIBLE);
 					}
 					else
 					{
-						parentLinear.setVisibility(1);
+						parentLinear.setVisibility(View.VISIBLE);
 					}				
 				}
-			});*/
+			});
 		
 		//create checkbox for account list
 		CheckBox rb ;
