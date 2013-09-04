@@ -30,9 +30,12 @@ public void onCreate(Bundle savedInstanceState) {
     final PendingIntent pintent = PendingIntent.getService(MainActivity.this, 0, intent,
             0);
     final AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-    /*every 5 secs*/
+    /*every 1 min*/
     alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
-            1000 * 10, pintent);
+    		1*60*1000, pintent);
+    /*every 5 secs
+    alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
+            1000 * 10, pintent);*/
     serviceStatus = true;
     // click listener for the button to start service
     Button btnStart = (Button) findViewById(R.id.startserviceBtn);
