@@ -10,6 +10,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -83,4 +85,21 @@ public void onCreate(Bundle savedInstanceState) {
     }
     
 }
+@Override
+public boolean onCreateOptionsMenu(Menu menu)
+	{
+	 menu.add(1, 1, 0, "Item1").setIcon(R.drawable.notification_icon).setOnMenuItemClickListener(new OnMenuItemClickListener() {
+		
+		@Override
+		public boolean onMenuItemClick(MenuItem item) {
+			// TODO Auto-generated method stub
+			Toast.makeText(getApplicationContext(), "optin meni Item1 clicked", Toast.LENGTH_LONG).show();
+			return false;
+		}
+	});
+     menu.add(1, 2, 1, "Item2").setIcon(R.drawable.notification_icon);
+     menu.add(1, 3, 2, "Item3").setIcon(R.drawable.notification_icon);
+     menu.add(1, 4, 3, "Item4").setIcon(R.drawable.notification_icon);
+	 return true;
+	}
 }
