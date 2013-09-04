@@ -7,15 +7,19 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -82,29 +86,24 @@ public class ConfigActivity extends Activity {
 					}				
 				}
 			});
+
 		
+		Pattern emailPattern = Patterns.EMAIL_ADDRESS; // API level 8+
+		Account[] accounts = AccountManager.get(getBaseContext()).getAccounts();
+		for (Account account : accounts) {
+		    if (emailPattern.matcher(account.name).matches()) {
+		    	if(!Accounts_list.contains(account.name))
+				 {
+					 Accounts_list.add(account.name);
+				 }
+		    }
+		}
+		
+
 		//create checkbox for account list
 		CheckBox rb ;
 		int account_selected_all = settings.getInt("accounts_selected_all", 0);
-		
-		//get array size of stored account list
-		Uri calendaruri = Uri.parse("content://com.android.calendar/events");
-		Cursor mCursor = getContentResolver().query(calendaruri, null, null, null, null);
-		if(mCursor.getCount()>0)
-		 {
-			mCursor.moveToFirst();
-			while(mCursor.moveToNext())
-			 {
-				if(!to_push.equals(mCursor.getString(mCursor.getColumnIndex("account_name"))))
-				 {
-					 to_push =mCursor.getString(mCursor.getColumnIndex("account_name"));
-					//check if account exist in array
-					 if(!Accounts_list.contains(to_push))
-					 {
-						 Accounts_list.add(to_push);
-					 }
-				 }
-			 }
+
 			if(Accounts_list.size() >0)
 			 {
 				all_acount.setVisibility(1);
@@ -161,12 +160,10 @@ public class ConfigActivity extends Activity {
 				       parentLinear.addView(rb);
 				 }
 			 }
-			
-		 }
 		else
 		{
 			TextView Account_list_title = (TextView)findViewById(R.id.Account_list_title);
-			Account_list_title.setText("No accounts with events");
+			Account_list_title.setText("No accounts");
 		}
 				/*
 				//texting to get save selected account list
