@@ -245,6 +245,10 @@ public class ConfigActivity extends Activity {
 		 */
 	    
 	}
+	public void onBackButtonClicked(View v)
+	{
+		onBackPressed();
+	}
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

@@ -82,6 +82,7 @@ android:layout_height="fill_parent"
 	            android:layout_height="fill_parent"
 	            android:layout_alignRight="@+id/saveBtn"
 	            android:layout_alignParentRight="true"
+	            android:onClick="onBackButtonClicked"
 	            />
 
 
