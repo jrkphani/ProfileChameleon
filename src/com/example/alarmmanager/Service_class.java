@@ -1,14 +1,9 @@
 package com.example.alarmmanager;
 
-import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 import android.annotation.TargetApi;
-import android.app.Notification;
-import android.app.Notification.Builder;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -25,11 +20,6 @@ import android.preference.PreferenceManager;
 import android.provider.CalendarContract.Calendars;
 import android.provider.CalendarContract.Events;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.CheckBox;
-import android.widget.Toast;
 
 
 public class Service_class extends Service {
