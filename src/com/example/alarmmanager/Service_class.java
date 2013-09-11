@@ -44,6 +44,9 @@ public class Service_class extends Service {
         //Toast.makeText(this, "Service Started", Toast.LENGTH_LONG).show();
     	SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
 		SharedPreferences.Editor settingsEditor = settings.edit();
+		//setting value 1 , to specify the service status is running 
+		settingsEditor.putInt("serviceStatus", 1);
+		settingsEditor.commit();
     	AudioManager audio = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
         String flag = "need genral profile";
         int general = 0;

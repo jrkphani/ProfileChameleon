@@ -3,11 +3,13 @@ package com.example.alarmmanager;
 import java.util.Calendar;
 
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,7 +25,8 @@ public class MainActivity extends Activity {
 public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-    
+    SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+	final SharedPreferences.Editor settingsEditor = settings.edit();
     // Start service using AlarmManager
 
     final Calendar cal = Calendar.getInstance();
@@ -38,9 +41,10 @@ public void onCreate(Bundle savedInstanceState) {
     /*every 5 secs
     alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
             1000 * 10, pintent);*/
-    serviceStatus = true;
+  //setting value 0 , to specify the service status is not running 
     // click listener for the button to start service
-    Button btnStart = (Button) findViewById(R.id.startserviceBtn);
+    final Button btnStart = (Button) findViewById(R.id.startserviceBtn);
+    final Button btnStop = (Button) findViewById(R.id.stopserviceBtn);
     btnStart.setOnClickListener(new View.OnClickListener() {
 
         @Override
@@ -48,13 +52,16 @@ public void onCreate(Bundle savedInstanceState) {
             startService(new Intent(getBaseContext(), Service_class.class));
             alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
                     1000 * 10, pintent);
-            serviceStatus = true;
+            settingsEditor.putInt("serviceStatus", 1);
+            settingsEditor.commit();
+            btnStart.setVisibility(View.INVISIBLE);
+        	btnStop.setVisibility(View.VISIBLE);
 
         }
     });
 
     // click listener for the button to stop service
-    Button btnStop = (Button) findViewById(R.id.stopserviceBtn);
+  
     btnStop.setOnClickListener(new View.OnClickListener() {
 
         @Override
@@ -62,12 +69,15 @@ public void onCreate(Bundle savedInstanceState) {
             stopService(new Intent(getBaseContext(), Service_class.class));
             //stop service repeating
             alarm.cancel(pintent);
-            serviceStatus = false;
+            settingsEditor.putInt("serviceStatus", 0);
+            settingsEditor.commit();
+            btnStart.setVisibility(View.VISIBLE);
+        	btnStop.setVisibility(View.INVISIBLE);
         }
     });
     
  // click config for to go to configuration intent 
-    Button btnConfig = (Button) findViewById(R.id.configBtn);
+    final Button btnConfig = (Button) findViewById(R.id.configBtn);
     btnConfig.setOnClickListener(new View.OnClickListener() {
 
         @Override
@@ -78,10 +88,18 @@ public void onCreate(Bundle savedInstanceState) {
         	startActivity(Configintent);
         }
     });
-    
-    if(serviceStatus)
+    int serviceStatus = settings.getInt("serviceStatus", 0);
+    if(serviceStatus == 0)
     {
-    	//Toast.makeText(getBaseContext(),"service runing", Toast.LENGTH_SHORT).show();
+    	btnStart.setVisibility(View.VISIBLE);
+    	btnStop.setVisibility(View.INVISIBLE);
+    	Toast.makeText(getBaseContext(),"service not runing"+serviceStatus, Toast.LENGTH_SHORT).show();
+    }
+    else
+    {
+    	btnStart.setVisibility(View.INVISIBLE);
+    	btnStop.setVisibility(View.VISIBLE);
+    	Toast.makeText(getBaseContext(),"service runing"+serviceStatus, Toast.LENGTH_SHORT).show();
     }
     
 }
@@ -100,6 +118,7 @@ public boolean onCreateOptionsMenu(Menu menu)
      menu.add(1, 2, 1, "Item2").setIcon(R.drawable.notification_icon);
      menu.add(1, 3, 2, "Item3").setIcon(R.drawable.notification_icon);
      menu.add(1, 4, 3, "Item4").setIcon(R.drawable.notification_icon);
+     menu.add(1, 5, 4, "Item5").setIcon(R.drawable.notification_icon);
 	 return true;
 	}
 }
