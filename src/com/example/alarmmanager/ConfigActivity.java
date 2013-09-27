@@ -8,6 +8,7 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -42,20 +43,19 @@ public class ConfigActivity extends Activity {
 		final LinearLayout parentLinear = (LinearLayout)findViewById(R.id.parent_linear);
 		/*Log.d("cuurent mode","=======================" );
 		Log.d("cuurent mode",modeToSet );*/
-		RadioButton radioToCkeck;
+		 RadioButton vibrateRadio = (RadioButton) findViewById(R.id.radio_vibrate);
+		 RadioButton normalRadio = (RadioButton) findViewById(R.id.radio_normal);
+		 RadioButton silentRadio = (RadioButton) findViewById(R.id.radio_silent);
 		switch(Modes.valueOf(modeToSet))
 		{
         case NORMAL:
-        	radioToCkeck = (RadioButton) findViewById(R.id.radio_normal);
-        	radioToCkeck.setChecked(true);
+        	normalRadio.setChecked(true);
             break;
         case VIBRATE:
-        	radioToCkeck = (RadioButton) findViewById(R.id.radio_vibrate);
-        	radioToCkeck.setChecked(true);
+        	vibrateRadio.setChecked(true);
         	break;
         case SILENT:
-        	radioToCkeck = (RadioButton) findViewById(R.id.radio_silent);
-        	radioToCkeck.setChecked(true);
+        	silentRadio.setChecked(true);
         	break;
         default:
         	break;
@@ -175,13 +175,41 @@ public class ConfigActivity extends Activity {
 						}
 				*/
 	}
+	public void onConfigurationChanged(Configuration newConfig) {
+	    super.onConfigurationChanged(newConfig);
+	    View mainLayout = findViewById(R.id.config_page); // getting the layout
+
+	    // Checks the orientation of the screen
+	    if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {    
+	        mainLayout.setBackgroundResource(R.drawable.sea_background_photo);
+	    } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+	        mainLayout.setBackgroundResource(R.drawable.bg1);
+	    }
+	  }
 	public void saveClicked(View view)
 	{
-		RadioGroup g = (RadioGroup) findViewById(R.id.radiogroup_mode);
-		int selected = g.getCheckedRadioButtonId();
-		int i=0;
-		RadioButton b = (RadioButton) findViewById(selected);
-		String selectedMode = (String) b.getText();
+		RadioButton vibrateRadio = (RadioButton) findViewById(R.id.radio_vibrate);
+		RadioButton normalRadio = (RadioButton) findViewById(R.id.radio_normal);
+		RadioButton silentRadio = (RadioButton) findViewById(R.id.radio_silent);
+		String selectedMode;
+		if(normalRadio.isChecked())
+		{
+			selectedMode = "NORMAL";
+		}
+		else if(vibrateRadio.isChecked())
+		{
+			selectedMode = "VIBRATE";
+		}
+		else if(silentRadio.isChecked())
+		{
+			selectedMode = "SILENT";
+		}
+		else
+		{
+			selectedMode = "VIBRATE";
+		}
+
+		int i=0;		
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this); 
 		SharedPreferences.Editor settingsEditor = settings.edit();
 		settingsEditor.putString("configMode", selectedMode);
@@ -189,7 +217,9 @@ public class ConfigActivity extends Activity {
 		settingsEditor.remove("accounts_selected_size");
 		settingsEditor.remove("accounts_selected_all");
 		//Store the account list in to SharedPreferences
+		Log.d("dddddd","dddddddddd");
 		CheckBox all_acount = (CheckBox)findViewById(R.id.all_acount);
+		Log.d("dddddd","aaaaaaaaaaad");
 		if(all_acount.isChecked())
 		{
 			settingsEditor.putInt("accounts_selected_all",1);
@@ -217,7 +247,28 @@ public class ConfigActivity extends Activity {
 	 {
 		VIBRATE, NORMAL, SILENT; 
 	 }
-	public void onRadioButtonClicked(View view) {
+	
+	public void onRadioButtonClicked(View v) {
+		RadioButton vibrateRadio = (RadioButton) findViewById(R.id.radio_vibrate);
+		 RadioButton normalRadio = (RadioButton) findViewById(R.id.radio_normal);
+		 RadioButton silentRadio = (RadioButton) findViewById(R.id.radio_silent);
+		switch (v.getId()) {
+        case R.id.radio_vibrate:
+        	silentRadio.setChecked(false);
+        	normalRadio.setChecked(false);
+        	//vibrateRadio.setChecked(false);
+            break;
+        case R.id.radio_normal:
+        	silentRadio.setChecked(false);
+        	//normalRadio.setChecked(false);
+        	vibrateRadio.setChecked(false);
+            break;
+        case R.id.radio_silent:
+        	//silentRadio.setChecked(false);
+        	normalRadio.setChecked(false);
+        	vibrateRadio.setChecked(false);
+            break;
+    }
 		//Toast.makeText(getBaseContext()," Click.",Toast.LENGTH_SHORT).show();
 		/*
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this); 

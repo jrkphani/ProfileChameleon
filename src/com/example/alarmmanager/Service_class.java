@@ -165,7 +165,7 @@ public class Service_class extends Service {
     	final NotificationCompat.Builder mBuilder =
 		        new NotificationCompat.Builder(this)
 				.setContentTitle("My notification")
-		        .setSmallIcon(R.drawable.notification_icon);
+		        .setSmallIcon(R.drawable.ic_launcher);
     	// Toast.makeText(getApplicationContext(), "Changing mode", Toast.LENGTH_SHORT).show();
 		
 		 mBuilder.setContentText("Profile changed to "+mode_changed).setAutoCancel(true);

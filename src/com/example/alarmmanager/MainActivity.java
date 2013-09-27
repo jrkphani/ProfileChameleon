@@ -8,6 +8,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
@@ -15,6 +16,8 @@ import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
@@ -55,6 +58,7 @@ public void onCreate(Bundle savedInstanceState) {
             settingsEditor.commit();
             btnStart.setVisibility(View.INVISIBLE);
         	btnStop.setVisibility(View.VISIBLE);
+        	Toast.makeText(getBaseContext(),"Service started", Toast.LENGTH_SHORT).show();
 
         }
     });
@@ -72,6 +76,7 @@ public void onCreate(Bundle savedInstanceState) {
             settingsEditor.commit();
             btnStart.setVisibility(View.VISIBLE);
         	btnStop.setVisibility(View.INVISIBLE);
+        	Toast.makeText(getBaseContext(),"Service stopped", Toast.LENGTH_SHORT).show();
         }
     });
     
@@ -92,32 +97,58 @@ public void onCreate(Bundle savedInstanceState) {
     {
     	btnStart.setVisibility(View.VISIBLE);
     	btnStop.setVisibility(View.INVISIBLE);
-    	Toast.makeText(getBaseContext(),"service not runing"+serviceStatus, Toast.LENGTH_SHORT).show();
+    	//Toast.makeText(getBaseContext(),"service not runing"+serviceStatus, Toast.LENGTH_SHORT).show();
     }
     else
     {
     	btnStart.setVisibility(View.INVISIBLE);
     	btnStop.setVisibility(View.VISIBLE);
-    	Toast.makeText(getBaseContext(),"service runing"+serviceStatus, Toast.LENGTH_SHORT).show();
+    	//Toast.makeText(getBaseContext(),"service runing"+serviceStatus, Toast.LENGTH_SHORT).show();
     }
     
 }
+public void onConfigurationChanged(Configuration newConfig) {
+    super.onConfigurationChanged(newConfig);
+    View mainLayout = findViewById(R.id.home_page);
+    Button btnStart = (Button) findViewById(R.id.startserviceBtn);
+    Button btnStop = (Button) findViewById(R.id.stopserviceBtn);
+    //TextView status_txt = (TextView) findViewById(R.id.status_txt);
+    RelativeLayout.LayoutParams btnStop_p=(RelativeLayout.LayoutParams)btnStop.getLayoutParams();
+    
+
+    // Checks the orientation of the screen
+    if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {    
+        mainLayout.setBackgroundResource(R.drawable.sea_background_photo);
+        btnStop_p.topMargin=50;
+    } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+        mainLayout.setBackgroundResource(R.drawable.bg);
+        btnStop_p.topMargin=90;
+    }
+  }
 @Override
 public boolean onCreateOptionsMenu(Menu menu)
 	{
-	 menu.add(1, 1, 0, "Item1").setIcon(R.drawable.notification_icon).setOnMenuItemClickListener(new OnMenuItemClickListener() {
+	 menu.add(1, 1, 0, "About").setIcon(R.drawable.notification_icon).setOnMenuItemClickListener(new OnMenuItemClickListener() {
 		
 		@Override
 		public boolean onMenuItemClick(MenuItem item) {
 			// TODO Auto-generated method stub
-			Toast.makeText(getApplicationContext(), "optin meni Item1 clicked", Toast.LENGTH_LONG).show();
+			Toast.makeText(getApplicationContext(), "About Digitalchakra page ...", Toast.LENGTH_LONG).show();
 			return false;
 		}
 	});
-     menu.add(1, 2, 1, "Item2").setIcon(R.drawable.notification_icon);
-     menu.add(1, 3, 2, "Item3").setIcon(R.drawable.notification_icon);
-     menu.add(1, 4, 3, "Item4").setIcon(R.drawable.notification_icon);
-     menu.add(1, 5, 4, "Item5").setIcon(R.drawable.notification_icon);
+     menu.add(1, 2, 1, "Developer").setIcon(R.drawable.notification_icon).setOnMenuItemClickListener(new OnMenuItemClickListener() {
+		
+		@Override
+		public boolean onMenuItemClick(MenuItem item) {
+			// TODO Auto-generated method stub
+			Toast.makeText(getApplicationContext(), "Manikandan R, S P Balaji & Prabakaran ", Toast.LENGTH_LONG).show();
+			return false;
+		}
+	});
+     //menu.add(1, 3, 2, "Item3").setIcon(R.drawable.notification_icon);
+     //menu.add(1, 4, 3, "Item4").setIcon(R.drawable.notification_icon);
+     //menu.add(1, 5, 4, "Item5").setIcon(R.drawable.notification_icon);
 	 return true;
 	}
 }
