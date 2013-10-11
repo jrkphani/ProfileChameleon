@@ -6,10 +6,12 @@ android:layout_height="fill_parent"
 android:background="@drawable/bg1"
 android:id="@+id/config_page"
 >
+
 <ScrollView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.0">
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="1" >
+
             <LinearLayout 
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
@@ -105,27 +107,29 @@ android:id="@+id/config_page"
 
 			</LinearLayout>
 		</ScrollView>
-		<RelativeLayout android:orientation="horizontal" 
-        android:layout_width="wrap_content" android:layout_height="60dip" >
+		<LinearLayout android:orientation="horizontal" 
+        android:layout_width="fill_parent" android:layout_height="wrap_content" 
+        >
 
             <Button
                 android:id="@+id/saveBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginRight="2dip"
+                android:background="#FF0000"
                 android:onClick="saveClicked"
                 android:text="Save" />
-            
-	        <Button 
-	            android:id="@+id/back" android:text="Back"
-	            android:layout_width="wrap_content" 
-	            android:layout_height="fill_parent"
-	            android:layout_alignRight="@+id/saveBtn"
-	            android:layout_alignParentRight="true"
-	            android:onClick="onBackButtonClicked"
-	            />
 
+            <Button
+                android:id="@+id/back"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="2dip"
+                android:background="#FF0000"
+                android:onClick="onBackButtonClicked"
+                android:text="Back" />
 
-    </RelativeLayout>
+    </LinearLayout>
 </LinearLayout>

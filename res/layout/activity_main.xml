@@ -1,45 +1,62 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="fill_parent"
 android:layout_height="fill_parent" 
 android:background="@drawable/bg"
+android:orientation="vertical"
 android:id="@+id/home_page">
  <!--  android:layout_below="@+id/startserviceBtn" -->
 
+<LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="0dip"
+    android:layout_weight="1"
+    android:orientation="vertical" 
+    android:layout_gravity="center_vertical">
+     <!-- dumy textview for spacing -->
+    <TextView android:layout_width="wrap_content"
+        android:layout_height="0dip"
+        android:layout_weight="0.40"/>
+    <TextView
+        android:id="@+id/status_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="100dip"
+        android:layout_marginTop="60dip"
+        android:background="#000000"
+        android:text="kjbvhrbvkrejh kneweev vkjnv hello manikadna welcom happy is this right , tell me n vkber verbgvem ve kjjbrekg vemrgvk boss 
+    kvheirhbrekberkh"
+        android:textColor="#FFFFFF" />
 
-<Button
-    android:id="@+id/stopserviceBtn"
+    <Button
+        android:id="@+id/startstopserviceBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitXY"
+        android:src="@drawable/branch" />
+
+    
+    <!-- dumy textview for spacing -->
+    <TextView android:layout_width="wrap_content"
+        android:layout_height="0dip"
+        android:layout_weight="0.40"/>
+</LinearLayout>
+
+<LinearLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_alignParentTop="true"
-    android:layout_centerInParent="true"
-    android:layout_marginTop="90dp"
-    android:background="@drawable/start" />
-
-<Button
-    android:id="@+id/startserviceBtn"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignBaseline="@+id/stopserviceBtn"
-    android:layout_centerInParent="true"
-    android:background="@drawable/stop" />
+    android:layout_gravity="center_horizontal">
 <Button
     android:id="@+id/configBtn"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true"
-    android:layout_centerHorizontal="true"
     android:background="@drawable/settings" />
+</LinearLayout>
 
-<TextView
-    android:id="@+id/status_txt"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignLeft="@+id/stopserviceBtn"
-    android:layout_alignParentTop="true"
-    android:layout_alignRight="@+id/stopserviceBtn"
-    android:layout_marginTop="24dp"
-    android:text="kjbvhrbvkrejh kneweev vkjnv hello manikadna welcom happy is this right , tell me boss 
-    kvheirhbrekberkh" />
 
-</RelativeLayout>
+</LinearLayout>

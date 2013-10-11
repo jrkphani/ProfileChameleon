@@ -23,21 +23,30 @@ public final class R {
     public static final class drawable {
         public static final int bg=0x7f020000;
         public static final int bg1=0x7f020001;
-        public static final int branch=0x7f020002;
-        public static final int branch1=0x7f020003;
-        public static final int ic_launcher=0x7f020004;
-        public static final int normal=0x7f020005;
-        public static final int notification_icon=0x7f020006;
-        public static final int sea_background_photo=0x7f020007;
-        public static final int settings=0x7f020008;
-        public static final int silent=0x7f020009;
-        public static final int start=0x7f02000a;
-        public static final int stop=0x7f02000b;
-        public static final int vibrate=0x7f02000c;
+        public static final int bg1_change=0x7f020002;
+        public static final int bg_change=0x7f020003;
+        public static final int branch=0x7f020004;
+        public static final int branch1=0x7f020005;
+        public static final int btn=0x7f020006;
+        public static final int cham1=0x7f020007;
+        public static final int cham2=0x7f020008;
+        public static final int cham3=0x7f020009;
+        public static final int chck=0x7f02000a;
+        public static final int check=0x7f02000b;
+        public static final int ic_launcher=0x7f02000c;
+        public static final int normal=0x7f02000d;
+        public static final int notification_icon=0x7f02000e;
+        public static final int select=0x7f02000f;
+        public static final int settings=0x7f020010;
+        public static final int silent=0x7f020011;
+        public static final int start=0x7f020012;
+        public static final int stop=0x7f020013;
+        public static final int unselect=0x7f020014;
+        public static final int vibrate=0x7f020015;
     }
     public static final class id {
         public static final int Account_list_title=0x7f080006;
-        public static final int action_settings=0x7f080010;
+        public static final int action_settings=0x7f08000f;
         public static final int all_acount=0x7f080007;
         public static final int back=0x7f08000a;
         public static final int configBtn=0x7f08000e;
@@ -49,9 +58,8 @@ public final class R {
         public static final int radio_vibrate=0x7f080003;
         public static final int radiogroup_mode=0x7f080002;
         public static final int saveBtn=0x7f080009;
-        public static final int startserviceBtn=0x7f08000d;
-        public static final int status_txt=0x7f08000f;
-        public static final int stopserviceBtn=0x7f08000c;
+        public static final int startstopserviceBtn=0x7f08000d;
+        public static final int status_txt=0x7f08000c;
         public static final int textView1=0x7f080001;
     }
     public static final class layout {

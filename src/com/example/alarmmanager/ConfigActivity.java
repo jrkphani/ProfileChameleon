@@ -178,11 +178,11 @@ public class ConfigActivity extends Activity {
 	public void onConfigurationChanged(Configuration newConfig) {
 	    super.onConfigurationChanged(newConfig);
 	    View mainLayout = findViewById(R.id.config_page); // getting the layout
-
+	    int orientation = getResources().getConfiguration().orientation;
 	    // Checks the orientation of the screen
-	    if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {    
-	        mainLayout.setBackgroundResource(R.drawable.sea_background_photo);
-	    } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+	    if (orientation == Configuration.ORIENTATION_LANDSCAPE) {    
+	        mainLayout.setBackgroundResource(R.drawable.bg1_change);
+	    } else {
 	        mainLayout.setBackgroundResource(R.drawable.bg1);
 	    }
 	  }

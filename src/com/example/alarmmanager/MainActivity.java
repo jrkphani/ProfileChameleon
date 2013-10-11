@@ -27,7 +27,24 @@ public class MainActivity extends Activity {
 public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-    SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+    ////
+    
+    int orientation = getResources().getConfiguration().orientation;
+    View mainLayout = findViewById(R.id.home_page);
+    //TextView status_txt = (TextView) findViewById(R.id.status_txt);
+    
+
+    // Checks the orientation of the screen
+    if (orientation == Configuration.ORIENTATION_LANDSCAPE) {    
+        mainLayout.setBackgroundResource(R.drawable.bg_change);
+     //   btnStop_p.topMargin=50;
+    } else {
+        mainLayout.setBackgroundResource(R.drawable.bg);
+       // btnStop_p.topMargin=90;
+    }
+    
+    ///
+    final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
 	final SharedPreferences.Editor settingsEditor = settings.edit();
     // Start service using AlarmManager
 
@@ -45,40 +62,38 @@ public void onCreate(Bundle savedInstanceState) {
             1000 * 10, pintent);*/
   //setting value 0 , to specify the service status is not running 
     // click listener for the button to start service
-    final Button btnStart = (Button) findViewById(R.id.startserviceBtn);
-    final Button btnStop = (Button) findViewById(R.id.stopserviceBtn);
-    btnStart.setOnClickListener(new View.OnClickListener() {
+    //final Button btnStart = (Button) findViewById(R.id.startserviceBtn);
+    final Button btnStartStop = (Button) findViewById(R.id.startstopserviceBtn);
+    btnStartStop.setOnClickListener(new View.OnClickListener() {
 
         @Override
         public void onClick(View v) {
-            startService(new Intent(getBaseContext(), Service_class.class));
-            alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
-                    1000 * 10, pintent);
-            settingsEditor.putInt("serviceStatus", 1);
-            settingsEditor.commit();
-            btnStart.setVisibility(View.INVISIBLE);
-        	btnStop.setVisibility(View.VISIBLE);
-        	Toast.makeText(getBaseContext(),"Service started", Toast.LENGTH_SHORT).show();
+        	
+        	////
+        	int serviceStatus = settings.getInt("serviceStatus", 0);
+            if(serviceStatus == 0)
+            {
+            	btnStartStop.setBackgroundResource(R.drawable.start);
+            	startService(new Intent(getBaseContext(), Service_class.class));
+                alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
+                        1000 * 10, pintent);
+                settingsEditor.putInt("serviceStatus", 1);
+                settingsEditor.commit();
+            	Toast.makeText(getBaseContext(),"Service started", Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+            	btnStartStop.setBackgroundResource(R.drawable.stop);
+            	stopService(new Intent(getBaseContext(), Service_class.class));
+                alarm.cancel(pintent);
+                settingsEditor.putInt("serviceStatus", 0);
+                settingsEditor.commit();
+                Toast.makeText(getBaseContext(),"Service stopped", Toast.LENGTH_SHORT).show();
+            }
 
         }
     });
 
-    // click listener for the button to stop service
-  
-    btnStop.setOnClickListener(new View.OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-            stopService(new Intent(getBaseContext(), Service_class.class));
-            //stop service repeating
-            alarm.cancel(pintent);
-            settingsEditor.putInt("serviceStatus", 0);
-            settingsEditor.commit();
-            btnStart.setVisibility(View.VISIBLE);
-        	btnStop.setVisibility(View.INVISIBLE);
-        	Toast.makeText(getBaseContext(),"Service stopped", Toast.LENGTH_SHORT).show();
-        }
-    });
     
  // click config for to go to configuration intent 
     final Button btnConfig = (Button) findViewById(R.id.configBtn);
@@ -95,34 +110,30 @@ public void onCreate(Bundle savedInstanceState) {
     int serviceStatus = settings.getInt("serviceStatus", 0);
     if(serviceStatus == 0)
     {
-    	btnStart.setVisibility(View.VISIBLE);
-    	btnStop.setVisibility(View.INVISIBLE);
-    	//Toast.makeText(getBaseContext(),"service not runing"+serviceStatus, Toast.LENGTH_SHORT).show();
+    	btnStartStop.setBackgroundResource(R.drawable.stop);
+    	Toast.makeText(getBaseContext(),"service not runing"+serviceStatus, Toast.LENGTH_SHORT).show();
     }
     else
     {
-    	btnStart.setVisibility(View.INVISIBLE);
-    	btnStop.setVisibility(View.VISIBLE);
-    	//Toast.makeText(getBaseContext(),"service runing"+serviceStatus, Toast.LENGTH_SHORT).show();
+    	btnStartStop.setBackgroundResource(R.drawable.start);
+    	Toast.makeText(getBaseContext(),"service runing"+serviceStatus, Toast.LENGTH_SHORT).show();
     }
     
 }
 public void onConfigurationChanged(Configuration newConfig) {
     super.onConfigurationChanged(newConfig);
+    int orientation = getResources().getConfiguration().orientation;
     View mainLayout = findViewById(R.id.home_page);
-    Button btnStart = (Button) findViewById(R.id.startserviceBtn);
-    Button btnStop = (Button) findViewById(R.id.stopserviceBtn);
     //TextView status_txt = (TextView) findViewById(R.id.status_txt);
-    RelativeLayout.LayoutParams btnStop_p=(RelativeLayout.LayoutParams)btnStop.getLayoutParams();
     
 
     // Checks the orientation of the screen
-    if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {    
-        mainLayout.setBackgroundResource(R.drawable.sea_background_photo);
-        btnStop_p.topMargin=50;
-    } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+    if (orientation == Configuration.ORIENTATION_LANDSCAPE) {    
+        mainLayout.setBackgroundResource(R.drawable.bg_change);
+     //   btnStop_p.topMargin=50;
+    } else {
         mainLayout.setBackgroundResource(R.drawable.bg);
-        btnStop_p.topMargin=90;
+       // btnStop_p.topMargin=90;
     }
   }
 @Override
@@ -146,7 +157,16 @@ public boolean onCreateOptionsMenu(Menu menu)
 			return false;
 		}
 	});
-     //menu.add(1, 3, 2, "Item3").setIcon(R.drawable.notification_icon);
+     menu.add(1, 3, 2, "Settings").setOnMenuItemClickListener(new OnMenuItemClickListener() {
+		
+		@Override
+		public boolean onMenuItemClick(MenuItem item) {
+			// TODO Auto-generated method stub
+			Intent Configintent = new Intent(getBaseContext(),ConfigActivity.class);
+        	startActivity(Configintent);
+			return false;
+		}
+	});
      //menu.add(1, 4, 3, "Item4").setIcon(R.drawable.notification_icon);
      //menu.add(1, 5, 4, "Item5").setIcon(R.drawable.notification_icon);
 	 return true;
