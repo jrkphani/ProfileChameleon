@@ -70,6 +70,7 @@ public void onCreate(Bundle savedInstanceState) {
         public void onClick(View v) {
         	
         	////
+        	
         	int serviceStatus = settings.getInt("serviceStatus", 0);
             if(serviceStatus == 0)
             {
