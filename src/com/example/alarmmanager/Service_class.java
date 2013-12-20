@@ -91,16 +91,9 @@ public class Service_class extends Service {
 								 if(audio.getRingerMode() !=2)
 								 {
 									 //set to normal mode when there is no event
-									 audio.setRingerMode(audio.RINGER_MODE_NORMAL);
-									 mode_changed = "NORMAL";
+									 Change_profile("NORMAL");
 								 }
 								 
-							 }
-							 
-							 //notification
-							if(!mode_changed.equals("no"))
-							 {
-								notification_top(mode_changed);
 							 }
 						 }
 						
@@ -211,6 +204,7 @@ public class Service_class extends Service {
     }
     private String Change_profile(String modeToSet)
     {
+    	int notify = 0;
     	AudioManager audio = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
     	//change profile mode to user preferred mode when there is an event
 		 
@@ -222,6 +216,7 @@ public class Service_class extends Service {
 			 if(audio.getRingerMode() !=0)
 			 {
 				 audio.setRingerMode(audio.RINGER_MODE_SILENT);
+				 notify=1;
 			 }
 		 }
 		 else if(modeToSet.equals("VIBRATE"))
@@ -231,6 +226,7 @@ public class Service_class extends Service {
 			 if(audio.getRingerMode() !=1)
 			 {
 				 audio.setRingerMode(audio.RINGER_MODE_VIBRATE);
+				 notify=1;
 			 }
 		 }
 		 else if(modeToSet.equals("NORMAL"))
@@ -240,6 +236,7 @@ public class Service_class extends Service {
 			 if(audio.getRingerMode() !=2)
 			 {
 				 audio.setRingerMode(audio.RINGER_MODE_NORMAL);
+				 notify=1;
 			 }
 		 }
 		 else
@@ -248,7 +245,13 @@ public class Service_class extends Service {
 			 if(audio.getRingerMode() !=1)
 			 {
 				 audio.setRingerMode(audio.RINGER_MODE_VIBRATE);
+				 notify=1;
 			 }
+		 }
+		 if(notify == 1)
+		 {
+			//notification
+			 notification_top(modeToSet);
 		 }
 		return modeToSet;
 		 
