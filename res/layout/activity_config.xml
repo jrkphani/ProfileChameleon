@@ -15,9 +15,9 @@ android:id="@+id/config_page"
             <LinearLayout 
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  
+                  android:layout_gravity="center_horizontal"
                   android:orientation="vertical">
-                  <TextView 
+                  			<TextView 
 						    android:text="Choose the profile mode you to change on event period"
 							android:id="@+id/textView1"
 							android:layout_width="wrap_content"
@@ -25,14 +25,14 @@ android:id="@+id/config_page"
 						</TextView>
 						    <RadioGroup
 						        android:id="@+id/radiogroup_mode"
-						    	android:layout_width="fill_parent"
+						    	android:layout_width="wrap_content"
 						    	android:layout_height="wrap_content"
+						    	android:layout_gravity="center_horizontal"
 						    	android:orientation="vertical">
 						    	<LinearLayout
 							        android:layout_width="wrap_content"
 							        android:layout_height="wrap_content"
-							        android:orientation="horizontal" 
-							        android:background="@drawable/branch1" >
+							        android:orientation="horizontal" >
 							       <ImageView
 							            android:layout_width="wrap_content"
 							            android:layout_height="wrap_content"
@@ -49,8 +49,7 @@ android:id="@+id/config_page"
 							    <LinearLayout
 							        android:layout_width="wrap_content"
 							        android:layout_height="wrap_content"
-							        android:orientation="horizontal"
-							        android:background="@drawable/branch1"  >
+							        android:orientation="horizontal">
 							        <ImageView
 							            android:layout_width="wrap_content"
 							            android:layout_height="wrap_content"
@@ -67,8 +66,7 @@ android:id="@+id/config_page"
 							    <LinearLayout
 							        android:layout_width="wrap_content"
 							        android:layout_height="wrap_content"
-							        android:orientation="horizontal"
-							        android:background="@drawable/branch1" >
+							        android:orientation="horizontal">
 							       <ImageView
 							            android:layout_width="wrap_content"
 							            android:layout_height="wrap_content"
@@ -116,8 +114,11 @@ android:id="@+id/config_page"
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_marginLeft="2dip"
                 android:layout_marginRight="2dip"
-                android:background="#FF0000"
+                android:background="#11a588"
+                android:textColor="#FFFFFF"
+                android:textSize="20dip"
                 android:onClick="saveClicked"
                 android:text="Save" />
 
@@ -125,9 +126,12 @@ android:id="@+id/config_page"
                 android:id="@+id/back"
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
+                android:textSize="20dip"
+                android:textColor="#FFFFFF"
                 android:layout_weight="1"
                 android:layout_marginLeft="2dip"
-                android:background="#FF0000"
+                android:layout_marginRight="2dip"
+                android:background="#11a588"
                 android:onClick="onBackButtonClicked"
                 android:text="Back" />
 
