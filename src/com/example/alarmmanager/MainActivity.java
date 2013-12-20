@@ -112,12 +112,12 @@ public void onCreate(Bundle savedInstanceState) {
     if(serviceStatus == 0)
     {
     	btnStartStop.setBackgroundResource(R.drawable.stop);
-    	Toast.makeText(getBaseContext(),"service not runing"+serviceStatus, Toast.LENGTH_SHORT).show();
+    	//Toast.makeText(getBaseContext(),"service not runing"+serviceStatus, Toast.LENGTH_SHORT).show();
     }
     else
     {
     	btnStartStop.setBackgroundResource(R.drawable.start);
-    	Toast.makeText(getBaseContext(),"service runing"+serviceStatus, Toast.LENGTH_SHORT).show();
+    //	Toast.makeText(getBaseContext(),"service runing"+serviceStatus, Toast.LENGTH_SHORT).show();
     }
     
 }
