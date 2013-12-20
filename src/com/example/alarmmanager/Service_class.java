@@ -38,15 +38,10 @@ public class Service_class extends Service {
 		settingsEditor.putInt("serviceStatus", 1);
 		settingsEditor.commit();
     	AudioManager audio = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
-        String flag = "need genral profile";
-        int general = 0;
         int vibrate = 0;
         int i=0;
-		String str_disp = "";
 		String mode_changed = "no";
-		String to_push="";
-		ArrayList<String> Accounts_list=new ArrayList<String>();
-		//String prev_mode_changed = "no";
+		new ArrayList<String>();
 		
 		Uri calendaruri = Uri.parse("content://com.android.calendar/events");
 		Cursor mCursor;
@@ -121,7 +116,7 @@ public class Service_class extends Service {
 				 if(audio.getRingerMode() !=2)
 				 {
 					 //set to normal mode when there is no event
-					 audio.setRingerMode(audio.RINGER_MODE_NORMAL);
+					 audio.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
 					 mode_changed = "NORMAL";
 				 }
 				 
@@ -215,7 +210,7 @@ public class Service_class extends Service {
 			// Toast.makeText(getApplicationContext(), "SILET CON", Toast.LENGTH_SHORT).show();
 			 if(audio.getRingerMode() !=0)
 			 {
-				 audio.setRingerMode(audio.RINGER_MODE_SILENT);
+				 audio.setRingerMode(AudioManager.RINGER_MODE_SILENT);
 				 notify=1;
 			 }
 		 }
@@ -225,7 +220,7 @@ public class Service_class extends Service {
 			// Toast.makeText(getApplicationContext(), "VIBRATE CON", Toast.LENGTH_SHORT).show();
 			 if(audio.getRingerMode() !=1)
 			 {
-				 audio.setRingerMode(audio.RINGER_MODE_VIBRATE);
+				 audio.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
 				 notify=1;
 			 }
 		 }
@@ -235,7 +230,7 @@ public class Service_class extends Service {
 			// Toast.makeText(getApplicationContext(), "NORMAL CON", Toast.LENGTH_SHORT).show();
 			 if(audio.getRingerMode() !=2)
 			 {
-				 audio.setRingerMode(audio.RINGER_MODE_NORMAL);
+				 audio.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
 				 notify=1;
 			 }
 		 }
@@ -244,7 +239,7 @@ public class Service_class extends Service {
 			//change profile mode default case to vibrate if any error occurs
 			 if(audio.getRingerMode() !=1)
 			 {
-				 audio.setRingerMode(audio.RINGER_MODE_VIBRATE);
+				 audio.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
 				 notify=1;
 			 }
 		 }
