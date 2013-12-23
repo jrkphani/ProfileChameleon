@@ -24,6 +24,7 @@ import android.preference.PreferenceManager;
 import android.provider.CalendarContract.Calendars;
 import android.provider.CalendarContract.Events;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 
 public class Service_class extends Service {
@@ -209,54 +210,77 @@ public class Service_class extends Service {
     	int notify = 0;
     	AudioManager audio = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
     	//change profile mode to user preferred mode when there is an event
-		 
+    	int current_mode = audio.getRingerMode();
+    	Log.d("eeee","eeee");
+    	System.out.println(current_mode);
+    	Log.d("ffff","fffff");
 		 //refer the comparing string ConfigActivity
 		 if(modeToSet.equals("SILENT"))
 		 {
 			 //change mode if mode is not in 'SILENT' 
 			// Toast.makeText(getApplicationContext(), "SILET CON", Toast.LENGTH_SHORT).show();
-			 if(audio.getRingerMode() !=0)
+			 switch (current_mode)
 			 {
-				 audio.setRingerMode(AudioManager.RINGER_MODE_SILENT);
-				 notify=1;
+			     case AudioManager.RINGER_MODE_SILENT:
+			    	 notify=0;
+			         break;
+			     default:
+			    	 audio.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+					 notify=1;
+			         break;
 			 }
 		 }
 		 else if(modeToSet.equals("VIBRATE"))
 		 {
 			//change mode if mode is not in 'VIBRATE'
 			// Toast.makeText(getApplicationContext(), "VIBRATE CON", Toast.LENGTH_SHORT).show();
-			 if(audio.getRingerMode() !=1)
+			 switch (current_mode)
 			 {
-				 audio.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
-				 Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);				 
-				// Vibrate for 300 milliseconds
-				 v.vibrate(300);
-				 notify=1;
+			     case AudioManager.RINGER_MODE_VIBRATE:
+			    	 notify=0;
+			         break;
+			     default:
+			    	 audio.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
+					 Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);				 
+					// Vibrate for 300 milliseconds
+					 v.vibrate(300);
+					 notify=1;
+			         break;
 			 }
 		 }
 		 else if(modeToSet.equals("NORMAL"))
 		 {
 			//change mode if mode is not in 'NORMAL'
 			// Toast.makeText(getApplicationContext(), "NORMAL CON", Toast.LENGTH_SHORT).show();
-			 if(audio.getRingerMode() !=2)
+			 switch (current_mode)
 			 {
-				 audio.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-				 Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-			     Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
-			     r.play();
-				 notify=1;
+			     case AudioManager.RINGER_MODE_NORMAL:
+			    	 notify=0;
+			         break;
+			     default:
+			    	 audio.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+					 Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+				     Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+				     r.play();
+					 notify=1;
+			         break;
 			 }
 		 }
 		 else
 		 {
 			//change profile mode default case to vibrate if any error occurs
-			 if(audio.getRingerMode() !=1)
+			 switch (current_mode)
 			 {
-				 audio.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
-				 Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);				 
-				 //Vibrate for 300 milliseconds
-				 v.vibrate(300);
-				 notify=1;
+			     case AudioManager.RINGER_MODE_VIBRATE:
+			    	 notify=0;
+			         break;
+			     default:
+			    	 audio.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
+					 Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);				 
+					// Vibrate for 300 milliseconds
+					 v.vibrate(300);
+					 notify=1;
+			         break;
 			 }
 		 }
 		 if(notify == 1)
