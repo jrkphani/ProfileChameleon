@@ -23,7 +23,7 @@ android:id="@+id/config_page"
 						        android:layout_height="wrap_content"
 						        android:padding="10dip"
 						        android:background="#11a588"
-						        android:text="@string/description_config"
+						        android:text="@string/description_config1"
 						        android:textColor="#FFFFFF" />
 						    <RadioGroup
 						        android:id="@+id/radiogroup_mode"
@@ -84,7 +84,7 @@ android:id="@+id/config_page"
 							    </LinearLayout>
 						</RadioGroup>
 						<TextView 
-						    android:text="Choose the acounts"
+						    android:text="@string/description_config2"
 							android:id="@+id/Account_list_title"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content">

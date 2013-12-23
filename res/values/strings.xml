@@ -5,8 +5,8 @@
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_config">ConfigActivity</string>
-    <string name="description_main">kjbvhrbvkrejh kneweev vkjnv hello manikadna welcom happy is this right , tell me n vkber verbgvem ve kjjbrekg vemrgvk boss 
-    kvheirhbrekberkh"</string>
-    <string name="description_config">Choose the profile mode you want to change on event period</string>
+    <string name="description_main">Click me to turn my services on!</string>
+    <string name="description_config1">Choose your profile mode you want!</string>
+    <string name="description_config1">Select all account events which I should monitor.</string>
 
 </resources>
