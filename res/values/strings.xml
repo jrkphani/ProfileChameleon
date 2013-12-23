@@ -7,6 +7,6 @@
     <string name="title_activity_config">ConfigActivity</string>
     <string name="description_main">Click me to turn my services on!</string>
     <string name="description_config1">Choose your profile mode you want!</string>
-    <string name="description_config1">Select all account events which I should monitor.</string>
+    <string name="description_config2">Select all account events which I should monitor</string>
 
 </resources>
