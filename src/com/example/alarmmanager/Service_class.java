@@ -126,12 +126,6 @@ public class Service_class extends Service {
 				 }
 				 
 			 }
-			 
-			 //notification
-			if(!mode_changed.equals("no"))
-			 {
-				notification_top(mode_changed);
-			 }
 		 }
     	
     }
