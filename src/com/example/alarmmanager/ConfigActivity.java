@@ -32,7 +32,7 @@ public class ConfigActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_config);
 		
-		ArrayList<String> Accounts_list=new ArrayList<String>();
+		final ArrayList<String> Accounts_list=new ArrayList<String>();
 		String to_push="";
 		String acc_name="";
 		int i=0;
@@ -40,7 +40,7 @@ public class ConfigActivity extends Activity {
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this); 
 		String modeToSet = settings.getString("configMode", "VIBRATE");
 		final CheckBox all_acount = (CheckBox)findViewById(R.id.all_acount);
-		final LinearLayout parentLinear = (LinearLayout)findViewById(R.id.parent_linear);
+		final LinearLayout parentLinear = (LinearLayout)findViewById(R.id.account_list);
 		/*Log.d("cuurent mode","=======================" );
 		Log.d("cuurent mode",modeToSet );*/
 		 RadioButton vibrateRadio = (RadioButton) findViewById(R.id.radio_vibrate);
@@ -61,23 +61,6 @@ public class ConfigActivity extends Activity {
         	break;
 		}
 		
-		all_acount.setOnClickListener(new OnClickListener() {
-			
-			@Override
-				public void onClick(View v) {
-					// TODO Auto-generated method stub
-					if (((CheckBox) v).isChecked())
-					{
-						parentLinear.setVisibility(View.INVISIBLE);
-					}
-					else
-					{
-						parentLinear.setVisibility(View.VISIBLE);
-					}				
-				}
-			});
-
-		
 		Pattern emailPattern = Patterns.EMAIL_ADDRESS; // API level 8+
 		Account[] accounts = AccountManager.get(getBaseContext()).getAccounts();
 		for (Account account : accounts) {
@@ -88,6 +71,36 @@ public class ConfigActivity extends Activity {
 				 }
 		    }
 		}
+		
+		
+		all_acount.setOnClickListener(new OnClickListener() {
+			
+			@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+				
+				if (((CheckBox) v).isChecked())
+				{
+					//parentLinear.setVisibility(View.INVISIBLE);
+					for (int i = 0; i < parentLinear.getChildCount(); i++){
+						   View view = parentLinear.getChildAt(i);
+						   ((CheckBox) view).setChecked(true);
+						}
+				}
+				else
+				{
+					//parentLinear.setVisibility(View.VISIBLE);
+					for (int i = 0; i < parentLinear.getChildCount(); i++){
+						   View view = parentLinear.getChildAt(i);
+						   ((CheckBox) view).setChecked(false);
+						}
+				}
+								
+				}
+			});
+
+		
+		
 		
 
 		//create checkbox for account list
@@ -111,8 +124,8 @@ public class ConfigActivity extends Activity {
 					    	   for(j=0; j<accounts_selected_size; j++)
 								{
 					    		   acc_name = settings.getString("acc_selected"+j, null);
-					    		   Log.d("selected acc",acc_name);
-					    		   Log.d("selected aaacc",Accounts_list.get(i));
+					    		  // Log.d("selected acc",acc_name);
+					    		   //Log.d("selected aaacc",Accounts_list.get(i));
 					    		   if(Accounts_list.get(i).equals(acc_name))
 					    		   {
 					    			   checkedAccounts.put(acc_name,acc_name);

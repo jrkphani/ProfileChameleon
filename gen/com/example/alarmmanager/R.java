@@ -46,13 +46,13 @@ public final class R {
     }
     public static final class id {
         public static final int Account_list_title=0x7f080006;
+        public static final int account_list=0x7f080008;
         public static final int action_settings=0x7f08000e;
         public static final int all_acount=0x7f080007;
         public static final int back=0x7f08000a;
         public static final int configBtn=0x7f08000d;
         public static final int config_page=0x7f080000;
         public static final int home_page=0x7f08000b;
-        public static final int parent_linear=0x7f080008;
         public static final int radio_normal=0x7f080004;
         public static final int radio_silent=0x7f080005;
         public static final int radio_vibrate=0x7f080003;
@@ -72,9 +72,10 @@ public final class R {
     public static final class string {
         public static final int action_settings=0x7f050001;
         public static final int app_name=0x7f050000;
-        public static final int description_config1=0x7f050005;
-        public static final int description_config2=0x7f050006;
-        public static final int description_main=0x7f050004;
+        public static final int description_config1=0x7f050006;
+        public static final int description_config2=0x7f050007;
+        public static final int description_main1=0x7f050004;
+        public static final int description_main2=0x7f050005;
         public static final int hello_world=0x7f050002;
         public static final int title_activity_config=0x7f050003;
     }

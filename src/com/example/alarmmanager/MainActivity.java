@@ -64,6 +64,7 @@ public void onCreate(Bundle savedInstanceState) {
     // click listener for the button to start service
     //final Button btnStart = (Button) findViewById(R.id.startserviceBtn);
     final Button btnStartStop = (Button) findViewById(R.id.startstopserviceBtn);
+    final TextView status_txt = (TextView) findViewById(R.id.status_txt);
     btnStartStop.setOnClickListener(new View.OnClickListener() {
 
         @Override
@@ -80,6 +81,7 @@ public void onCreate(Bundle savedInstanceState) {
                 		1*60*1000, pintent);
                 settingsEditor.putInt("serviceStatus", 1);
                 settingsEditor.commit();
+                status_txt.setText(R.string.description_main2);
             	Toast.makeText(getBaseContext(),"Service started", Toast.LENGTH_SHORT).show();
             }
             else
@@ -89,6 +91,7 @@ public void onCreate(Bundle savedInstanceState) {
                 alarm.cancel(pintent);
                 settingsEditor.putInt("serviceStatus", 0);
                 settingsEditor.commit();
+                status_txt.setText(R.string.description_main1);
                 Toast.makeText(getBaseContext(),"Service stopped", Toast.LENGTH_SHORT).show();
             }
 
@@ -113,11 +116,13 @@ public void onCreate(Bundle savedInstanceState) {
     {
     	btnStartStop.setBackgroundResource(R.drawable.stop);
     	//Toast.makeText(getBaseContext(),"service not runing"+serviceStatus, Toast.LENGTH_SHORT).show();
+    	status_txt.setText(R.string.description_main1);
     }
     else
     {
     	btnStartStop.setBackgroundResource(R.drawable.start);
     //	Toast.makeText(getBaseContext(),"service runing"+serviceStatus, Toast.LENGTH_SHORT).show();
+    	status_txt.setText(R.string.description_main2);
     }
     
 }
