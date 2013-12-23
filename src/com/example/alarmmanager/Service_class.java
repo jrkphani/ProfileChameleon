@@ -11,11 +11,15 @@ import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.media.AudioManager;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
+import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.CalendarContract.Calendars;
 import android.provider.CalendarContract.Events;
@@ -150,9 +154,12 @@ public class Service_class extends Service {
     {
     	//this md will be used to modify the notification
         final int mId = 1014;
+        Resources appR = this.getResources();
+        CharSequence notif_title  = appR.getText(appR.getIdentifier("app_name",
+        "string", this.getPackageName()));
     	final NotificationCompat.Builder mBuilder =
 		        new NotificationCompat.Builder(this)
-				.setContentTitle("My notification")
+				.setContentTitle(notif_title)
 		        .setSmallIcon(R.drawable.ic_launcher);
     	// Toast.makeText(getApplicationContext(), "Changing mode", Toast.LENGTH_SHORT).show();
 		
@@ -221,6 +228,9 @@ public class Service_class extends Service {
 			 if(audio.getRingerMode() !=1)
 			 {
 				 audio.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
+				 Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);				 
+				// Vibrate for 300 milliseconds
+				 v.vibrate(300);
 				 notify=1;
 			 }
 		 }
@@ -231,6 +241,9 @@ public class Service_class extends Service {
 			 if(audio.getRingerMode() !=2)
 			 {
 				 audio.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+				 Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+			     Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+			     r.play();
 				 notify=1;
 			 }
 		 }
@@ -240,6 +253,9 @@ public class Service_class extends Service {
 			 if(audio.getRingerMode() !=1)
 			 {
 				 audio.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
+				 Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);				 
+				 //Vibrate for 300 milliseconds
+				 v.vibrate(300);
 				 notify=1;
 			 }
 		 }

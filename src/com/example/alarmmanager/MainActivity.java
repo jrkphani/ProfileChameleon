@@ -77,7 +77,7 @@ public void onCreate(Bundle savedInstanceState) {
             	btnStartStop.setBackgroundResource(R.drawable.start);
             	startService(new Intent(getBaseContext(), Service_class.class));
                 alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
-                        1000 * 10, pintent);
+                		1*60*1000, pintent);
                 settingsEditor.putInt("serviceStatus", 1);
                 settingsEditor.commit();
             	Toast.makeText(getBaseContext(),"Service started", Toast.LENGTH_SHORT).show();
@@ -149,7 +149,7 @@ public boolean onCreateOptionsMenu(Menu menu)
 			return false;
 		}
 	});
-     menu.add(1, 2, 1, "Developer").setIcon(R.drawable.notification_icon).setOnMenuItemClickListener(new OnMenuItemClickListener() {
+  /*   menu.add(1, 2, 1, "Developer").setIcon(R.drawable.notification_icon).setOnMenuItemClickListener(new OnMenuItemClickListener() {
 		
 		@Override
 		public boolean onMenuItemClick(MenuItem item) {
@@ -157,7 +157,7 @@ public boolean onCreateOptionsMenu(Menu menu)
 			Toast.makeText(getApplicationContext(), "Manikandan R, S P Balaji & Prabakaran ", Toast.LENGTH_LONG).show();
 			return false;
 		}
-	});
+	});*/
      menu.add(1, 3, 2, "Settings").setOnMenuItemClickListener(new OnMenuItemClickListener() {
 		
 		@Override

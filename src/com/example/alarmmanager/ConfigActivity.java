@@ -217,9 +217,7 @@ public class ConfigActivity extends Activity {
 		settingsEditor.remove("accounts_selected_size");
 		settingsEditor.remove("accounts_selected_all");
 		//Store the account list in to SharedPreferences
-		Log.d("dddddd","dddddddddd");
 		CheckBox all_acount = (CheckBox)findViewById(R.id.all_acount);
-		Log.d("dddddd","aaaaaaaaaaad");
 		if(all_acount.isChecked())
 		{
 			settingsEditor.putInt("accounts_selected_all",1);
@@ -233,7 +231,7 @@ public class ConfigActivity extends Activity {
 				 for(i=0;i<checkedAccounts.size();i++)
 				 {
 						settingsEditor.putString("acc_selected"+i,checkedAccountslist[i].toString());
-						Log.d("------------",checkedAccountslist[i].toString()); 
+						//Log.d("------------",checkedAccountslist[i].toString()); 
 				 }
 				 //to remove if any account is stored previous
 				 settingsEditor.putInt("accounts_selected_size",checkedAccounts.size());
