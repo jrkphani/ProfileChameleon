@@ -14,7 +14,6 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,7 +23,6 @@ import android.view.View.OnClickListener;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,7 +36,6 @@ public class ConfigActivity extends Activity {
 		setContentView(R.layout.activity_config);
 		
 		final ArrayList<String> Accounts_list=new ArrayList<String>();
-		String to_push="";
 		String acc_name="";
 		int i=0;
 		int j=0;

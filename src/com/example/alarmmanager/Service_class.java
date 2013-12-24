@@ -4,11 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,7 +16,6 @@ import android.media.AudioManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.IBinder;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
@@ -46,7 +43,6 @@ public class Service_class extends Service {
     	AudioManager audio = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
         int vibrate = 0;
         int i=0;
-		String mode_changed = "no";
 		new ArrayList<String>();
 		
 		Uri calendaruri = Uri.parse("content://com.android.calendar/events");
@@ -85,7 +81,7 @@ public class Service_class extends Service {
 							 {
 								//get prefer mode
 								String modeToSet = settings.getString("configMode", "VIBRATE");
-								mode_changed = Change_profile(modeToSet);
+								Change_profile(modeToSet);
 							 }
 							 else
 							 {
@@ -115,7 +111,7 @@ public class Service_class extends Service {
 			 {
 				//get prefer mode
 				String modeToSet = settings.getString("configMode", "VIBRATE");
-				mode_changed = Change_profile(modeToSet);
+				Change_profile(modeToSet);
 			 }
 			 else
 			 {
@@ -123,7 +119,6 @@ public class Service_class extends Service {
 				 {
 					 //set to normal mode when there is no event
 					 audio.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-					 mode_changed = "NORMAL";
 				 }
 				 
 			 }
