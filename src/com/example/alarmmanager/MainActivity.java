@@ -165,7 +165,7 @@ public boolean onCreateOptionsMenu(Menu menu)
 			return false;
 		}
 	});*/
-     menu.add(1, 3, 2, "Settings").setOnMenuItemClickListener(new OnMenuItemClickListener() {
+     menu.add(1, 1, 1, "Settings").setOnMenuItemClickListener(new OnMenuItemClickListener() {
 		
 		@Override
 		public boolean onMenuItemClick(MenuItem item) {

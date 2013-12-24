@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.MenuItem.OnMenuItemClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -43,10 +45,19 @@ public class AboutActivity extends Activity {
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.about, menu);
-		return true;
-	}
+	public boolean onCreateOptionsMenu(Menu menu)
+		{
+	     menu.add(1, 1, 0, "Settings").setOnMenuItemClickListener(new OnMenuItemClickListener() {
+			
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				// TODO Auto-generated method stub
+				Intent Configintent = new Intent(getBaseContext(),ConfigActivity.class);
+	        	startActivity(Configintent);
+				return false;
+			}
+		});
+		 return true;
+		}
 
 }
