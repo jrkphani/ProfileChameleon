@@ -145,12 +145,14 @@ public void onConfigurationChanged(Configuration newConfig) {
 @Override
 public boolean onCreateOptionsMenu(Menu menu)
 	{
-	 menu.add(1, 1, 0, "About").setIcon(R.drawable.notification_icon).setOnMenuItemClickListener(new OnMenuItemClickListener() {
-		
+	 //menu.add(1, 1, 0, "About").setIcon(R.drawable.notification_icon).setOnMenuItemClickListener(new OnMenuItemClickListener() {
+	menu.add(1, 1, 0, "About").setOnMenuItemClickListener(new OnMenuItemClickListener() {
 		@Override
 		public boolean onMenuItemClick(MenuItem item) {
 			// TODO Auto-generated method stub
-			Toast.makeText(getApplicationContext(), "About Digitalchakra page ...", Toast.LENGTH_LONG).show();
+			//Toast.makeText(getApplicationContext(), "About Digitalchakra page ...", Toast.LENGTH_LONG).show();
+			Intent Configintent = new Intent(getBaseContext(),AboutActivity.class);
+        	startActivity(Configintent);
 			return false;
 		}
 	});

@@ -1,0 +1,51 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="1" 
+    android:orientation="vertical" >
+<ScrollView 
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1" 
+    tools:context=".AboutActivity" >
+    <LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+    
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dip"
+		android:background="#11a588"
+		android:textSize="20dip"
+		android:textColor="#FFFFFF"
+        android:text="@string/description_about" />
+   </LinearLayout>
+    </ScrollView>
+    <LinearLayout android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+         <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dip"
+        android:text="@string/dc" 
+        android:id="@+id/developed_by"
+        android:gravity="center"/>
+    <ImageView android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+         android:id="@+id/dc_logo"
+        android:src="@drawable/digitalchakra_logo"
+        android:gravity="center"
+        />
+        <TextView
+        android:autoLink="web"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dip"
+		android:gravity="center"
+        android:id="@+id/copyright"/>
+    </LinearLayout>
+    </LinearLayout>

@@ -3,6 +3,7 @@ package com.example.alarmmanager;
 import java.util.ArrayList;
 import java.util.Date;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -144,7 +145,8 @@ public class Service_class extends Service {
     public void onCreate() {
         super.onCreate();
     }
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+
+	@SuppressLint("NewApi")
 	private void notification_top(String mode_changed)
     {
     	//this md will be used to modify the notification
@@ -152,36 +154,19 @@ public class Service_class extends Service {
         Resources appR = this.getResources();
         CharSequence notif_title  = appR.getText(appR.getIdentifier("app_name",
         "string", this.getPackageName()));
-    	final NotificationCompat.Builder mBuilder =
-		        new NotificationCompat.Builder(this)
-				.setContentTitle(notif_title)
-		        .setSmallIcon(R.drawable.ic_launcher);
-    	// Toast.makeText(getApplicationContext(), "Changing mode", Toast.LENGTH_SHORT).show();
-		
-		 mBuilder.setContentText("Profile changed to "+mode_changed).setAutoCancel(true);
+        Intent resultIntent = new Intent(getBaseContext(), MainActivity.class);
+		PendingIntent resultPendingIntent =
+		    PendingIntent.getActivity(getBaseContext(), 0,resultIntent,PendingIntent.FLAG_UPDATE_CURRENT);
 
-			// Creates an explicit intent for an Activity in your app
-			Intent resultIntent = new Intent(this, MainActivity.class);
+		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
+		        getApplicationContext()).setSmallIcon(R.drawable.ic_launcher)
+		        .setContentTitle(notif_title)
+		        .setContentText("Your phone is set to "+mode_changed+" mode")
+		        .setContentIntent(resultPendingIntent)
+		        .setAutoCancel(true);
 
-			// The stack builder object will contain an artificial back stack for the
-			// started Activity.
-			// This ensures that navigating backward from the Activity leads out of
-			// your application to the Home screen.
-			TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-			// Adds the back stack for the Intent (but not the Intent itself)
-			stackBuilder.addParentStack(MainActivity.class);
-			// Adds the Intent that starts the Activity to the top of the stack
-			stackBuilder.addNextIntent(resultIntent);
-			PendingIntent resultPendingIntent =
-			        stackBuilder.getPendingIntent(
-			            0,
-			            PendingIntent.FLAG_UPDATE_CURRENT
-			        );
-			mBuilder.setContentIntent(resultPendingIntent);
-			NotificationManager mNotificationManager =
-				    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-				// mId allows you to update the notification later on.
-				mNotificationManager.notify(mId, mBuilder.build());
+		NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		manager.notify(mId, mBuilder.build());
     }
     
     private int Check_event(Cursor mCursor)

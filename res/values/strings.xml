@@ -9,5 +9,14 @@
     <string name="description_main2">Click me to turn my services off!</string>
     <string name="description_config1">Choose your profile mode you want!</string>
     <string name="description_config2">Select all account events which I should monitor</string>
+    <string name="title_activity_about">AboutActivity</string>
+    <string name="description_about">Ever had your phone ring loudly in the middle of a meeting or a movie?
+        \n
+        Profile Chameleon saves you a ton of embarrassment by turning your phone silent automagically when there is an event in progress!
+        \n
+- Need only your work account to be monitored? 
+\n
+Profile Chameleon gives you the flexibility to choose only the accounts which it should monitor!</string>
+<string name="dc">Developed by</string>
 
 </resources>
