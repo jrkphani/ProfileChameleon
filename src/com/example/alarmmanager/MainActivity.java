@@ -4,8 +4,10 @@ import java.util.Calendar;
 
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -56,8 +58,12 @@ public void onCreate(Bundle savedInstanceState) {
             0);
     final AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
     /*every 1 min*/
+    /*
+     * disable to stop service by default when they install first time
+     
     alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
     		1*60*1000, pintent);
+    		*/
     /*every 5 secs
     alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
             1000 * 10, pintent);*/
@@ -95,6 +101,13 @@ public void onCreate(Bundle savedInstanceState) {
                 status_txt.setText(R.string.description_main1);
                 Toast.makeText(getBaseContext(),"Service stopped", Toast.LENGTH_SHORT).show();
             }
+            int account_selected_size = settings.getInt("accounts_selected_size", -1);
+        	int account_selected_all = settings.getInt("accounts_selected_all", -1);
+        	if(account_selected_size ==-1 && account_selected_all ==-1)
+        	{
+        		Intent Configintent = new Intent(getBaseContext(),ConfigActivity.class);
+            	startActivity(Configintent);
+        	}
 
         }
     });
@@ -126,7 +139,51 @@ public void onCreate(Bundle savedInstanceState) {
     	status_txt.setText(R.string.description_main2);
     }
     
-    //Redirect user to config page on first install
+    //Alert user  on first install
+    int account_selected_size = settings.getInt("accounts_selected_size", -1);
+	int account_selected_all = settings.getInt("accounts_selected_all", -1);
+	if(account_selected_size ==-1 && account_selected_all ==-1)
+	{
+		//Toast.makeText(getBaseContext(), "Fisrt", Toast.LENGTH_LONG).show();
+		serviceStatus = settings.getInt("serviceStatus", -1);
+		if(serviceStatus == -1)
+		{
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+ 
+			// set title
+			alertDialogBuilder.setTitle("Guide");
+ 
+			// set dialog message
+			alertDialogBuilder
+				.setMessage("Click on the Chameleon Icon to turn the services on!")
+				.setCancelable(false)
+				/*.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog,int id) {
+						// if this button is clicked, close
+						// current activity
+						MainActivity.this.finish();
+					}
+				  })*/
+				.setNegativeButton("OK",new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog,int id) {
+						// if this button is clicked, just close
+						// the dialog box and do nothing
+						dialog.cancel();
+					}
+				});
+ 
+				// create alert dialog
+				AlertDialog alertDialog = alertDialogBuilder.create();
+ 
+				// show it
+				alertDialog.show();
+		}
+		else
+		{
+			Intent Configintent = new Intent(getBaseContext(),ConfigActivity.class);
+        	startActivity(Configintent);
+		}
+	}
     
 }
 public void onConfigurationChanged(Configuration newConfig) {

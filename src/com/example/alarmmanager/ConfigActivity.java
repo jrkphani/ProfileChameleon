@@ -7,6 +7,8 @@ import java.util.regex.Pattern;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -109,6 +111,7 @@ public class ConfigActivity extends Activity {
 		//create checkbox for account list
 		CheckBox rb ;
 		int account_selected_all = settings.getInt("accounts_selected_all", 0);
+		int account_selected_size = settings.getInt("accounts_selected_size", 0);
 
 			if(Accounts_list.size() >0)
 			 {
@@ -190,6 +193,44 @@ public class ConfigActivity extends Activity {
 							}
 						}
 				*/
+			
+			 //Alert user  on first install
+			account_selected_size = settings.getInt("accounts_selected_size", -1);
+			account_selected_all = settings.getInt("accounts_selected_all", -1);
+				if(account_selected_size ==-1 && account_selected_all ==-1)
+				{
+					//Toast.makeText(getBaseContext(), "Fisrt", Toast.LENGTH_LONG).show();
+					AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+			 
+						// set title
+						alertDialogBuilder.setTitle("Guide");
+			 
+						// set dialog message
+						alertDialogBuilder
+							.setMessage("Choose accounts and profile mode !")
+							.setCancelable(false)
+							/*.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,int id) {
+									// if this button is clicked, close
+									// current activity
+									MainActivity.this.finish();
+								}
+							  })*/
+							.setNegativeButton("OK",new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,int id) {
+									// if this button is clicked, just close
+									// the dialog box and do nothing
+									dialog.cancel();
+								}
+							});
+			 
+							// create alert dialog
+							AlertDialog alertDialog = alertDialogBuilder.create();
+			 
+							// show it
+							alertDialog.show();
+					}
+			
 	}
 	public void onConfigurationChanged(Configuration newConfig) {
 	    super.onConfigurationChanged(newConfig);
