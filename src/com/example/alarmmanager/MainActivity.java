@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -100,7 +101,7 @@ public void onCreate(Bundle savedInstanceState) {
 
     
  // click config for to go to configuration intent 
-    final Button btnConfig = (Button) findViewById(R.id.configBtn);
+    final ImageView btnConfig = (ImageView) findViewById(R.id.configBtn);
     btnConfig.setOnClickListener(new View.OnClickListener() {
 
         @Override
@@ -124,6 +125,8 @@ public void onCreate(Bundle savedInstanceState) {
     //	Toast.makeText(getBaseContext(),"service runing"+serviceStatus, Toast.LENGTH_SHORT).show();
     	status_txt.setText(R.string.description_main2);
     }
+    
+    //Redirect user to config page on first install
     
 }
 public void onConfigurationChanged(Configuration newConfig) {
