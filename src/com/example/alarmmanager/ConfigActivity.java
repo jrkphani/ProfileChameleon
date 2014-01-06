@@ -115,22 +115,7 @@ public class ConfigActivity extends Activity {
 		}*/
 		List<String> list = new ArrayList<String>();
 		int selectedHrs_Position = 0;
-		if(selectedHrs == 3)
-			selectedHrs_Position = 0;
-		else if(selectedHrs == 6)
-			selectedHrs_Position = 1;
-		else if(selectedHrs == 9)
-			selectedHrs_Position = 2;
-		else if(selectedHrs == 12)
-			selectedHrs_Position = 3;
-		else if(selectedHrs == 15)
-			selectedHrs_Position = 4;
-		else if(selectedHrs == 18)
-			selectedHrs_Position = 5;
-		else if(selectedHrs == 21)
-			selectedHrs_Position = 6;
-		else if(selectedHrs == 24)
-			selectedHrs_Position = 7;
+		selectedHrs_Position = getHrsPosition(selectedHrs);
 
 		list.add("3");
 		list.add("6");
@@ -313,7 +298,7 @@ public class ConfigActivity extends Activity {
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this); 
 		SharedPreferences.Editor settingsEditor = settings.edit();
 		settingsEditor.putString("configMode", selectedMode);
-		settingsEditor.putString("selectedHrs", selected_Hrs);
+		settingsEditor.putInt("selectedHrs", Integer.parseInt(selected_Hrs));
 		settingsEditor.remove("%acc_selected");
 		settingsEditor.remove("accounts_selected_size");
 		settingsEditor.remove("accounts_selected_all");
@@ -406,5 +391,26 @@ public class ConfigActivity extends Activity {
 		});
 		 return true;
 		}
+	public int getHrsPosition(int selectedHrs)
+	{
+		int selectedHrs_Position = 0;
+		if(selectedHrs == 3)
+			selectedHrs_Position = 0;
+		else if(selectedHrs == 6)
+			selectedHrs_Position = 1;
+		else if(selectedHrs == 9)
+			selectedHrs_Position = 2;
+		else if(selectedHrs == 12)
+			selectedHrs_Position = 3;
+		else if(selectedHrs == 15)
+			selectedHrs_Position = 4;
+		else if(selectedHrs == 18)
+			selectedHrs_Position = 5;
+		else if(selectedHrs == 21)
+			selectedHrs_Position = 6;
+		else if(selectedHrs == 24)
+			selectedHrs_Position = 7;
+		return selectedHrs_Position;
+	}
 
 }
