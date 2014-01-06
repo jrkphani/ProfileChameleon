@@ -2,6 +2,7 @@ package com.example.alarmmanager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import android.accounts.Account;
@@ -20,9 +21,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +33,7 @@ public class ConfigActivity extends Activity {
 	//public String profileMode;
 	//public final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this); 
 	public HashMap<String,String> checkedAccounts = new HashMap<String,String>();
+	private Spinner spinner_Hrs;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -41,6 +45,8 @@ public class ConfigActivity extends Activity {
 		int j=0;
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this); 
 		String modeToSet = settings.getString("configMode", "VIBRATE");
+		//getting array position of slected item
+		int selectedHrs = settings.getInt("selectedHrs", 9);
 		final CheckBox all_acount = (CheckBox)findViewById(R.id.all_acount);
 		final LinearLayout parentLinear = (LinearLayout)findViewById(R.id.account_list);
 		/*Log.d("cuurent mode","=======================" );
@@ -102,7 +108,43 @@ public class ConfigActivity extends Activity {
 			});
 
 		
+		//Hrs selection
+		spinner_Hrs = (Spinner) findViewById(R.id.spinner_Hrs);
+		/*switch(selectedHrs){
 		
+		}*/
+		List<String> list = new ArrayList<String>();
+		int selectedHrs_Position = 0;
+		if(selectedHrs == 3)
+			selectedHrs_Position = 0;
+		else if(selectedHrs == 6)
+			selectedHrs_Position = 1;
+		else if(selectedHrs == 9)
+			selectedHrs_Position = 2;
+		else if(selectedHrs == 12)
+			selectedHrs_Position = 3;
+		else if(selectedHrs == 15)
+			selectedHrs_Position = 4;
+		else if(selectedHrs == 18)
+			selectedHrs_Position = 5;
+		else if(selectedHrs == 21)
+			selectedHrs_Position = 6;
+		else if(selectedHrs == 24)
+			selectedHrs_Position = 7;
+
+		list.add("3");
+		list.add("6");
+		list.add("9");
+		list.add("12");
+		list.add("15");
+		list.add("18");
+		list.add("21");
+		list.add("24");
+
+		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, list);
+		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinner_Hrs.setAdapter(dataAdapter);
+		spinner_Hrs.setSelection(selectedHrs_Position);
 		
 
 		//create checkbox for account list
@@ -262,11 +304,16 @@ public class ConfigActivity extends Activity {
 		{
 			selectedMode = "VIBRATE";
 		}
+		
+		spinner_Hrs = (Spinner) findViewById(R.id.spinner_Hrs);
+		String selected_Hrs = spinner_Hrs.getSelectedItem().toString();
+		//System.out.println(selected_Hrs);
 
 		int i=0;		
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this); 
 		SharedPreferences.Editor settingsEditor = settings.edit();
 		settingsEditor.putString("configMode", selectedMode);
+		settingsEditor.putString("selectedHrs", selected_Hrs);
 		settingsEditor.remove("%acc_selected");
 		settingsEditor.remove("accounts_selected_size");
 		settingsEditor.remove("accounts_selected_all");

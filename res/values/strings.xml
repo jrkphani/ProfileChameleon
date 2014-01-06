@@ -19,4 +19,6 @@
 Profile Chameleon gives you the flexibility to choose only the accounts which it should monitor!</string>
 <string name="dc">Developed by</string>
 
+    <string name="selectHrs">Maximum event time</string>
+
 </resources>

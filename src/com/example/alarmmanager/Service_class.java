@@ -168,12 +168,24 @@ public class Service_class extends Service {
     {
     	mCursor.moveToFirst();
     	 int vibrate=0;
+    	 SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+    	 int selectedHrs = settings.getInt("selectedHrs", 9);
 		 while(mCursor.moveToNext())
 		 {
 			 long currentTime = new Date().getTime();
-				 if((currentTime >= mCursor.getLong(mCursor.getColumnIndex("dtstart")) ) && (currentTime <= mCursor.getLong(mCursor.getColumnIndex("dtend"))))
+			 long eventSTime = mCursor.getLong(mCursor.getColumnIndex("dtstart"));
+			 long eventETime = mCursor.getLong(mCursor.getColumnIndex("dtend"));
+			 
+			/*convert to Hrs*/
+			 long eventTime = (eventETime - eventSTime)/3600000;
+			 /*System.out.println("=======title======="+mCursor.getString(mCursor.getColumnIndex("title")));
+			 System.out.println("=======ssssssss======="+eventSTime);
+			 System.out.println("=======eeeeee========"+eventETime);
+			 System.out.println("=======ttttttt========"+eventTime);*/
+				 if((currentTime >= eventSTime ) && (currentTime <= eventETime) && (eventTime <= selectedHrs))
 				 {
 						 vibrate=1;
+						 //System.out.println("thissssss eventttttttt");
 				 }
 
 		 }
@@ -185,9 +197,9 @@ public class Service_class extends Service {
     	AudioManager audio = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
     	//change profile mode to user preferred mode when there is an event
     	int current_mode = audio.getRingerMode();
-    	Log.d("eeee","eeee");
+    	//Log.d("eeee","eeee");
     	System.out.println(current_mode);
-    	Log.d("ffff","fffff");
+    	//Log.d("ffff","fffff");
 		 //refer the comparing string ConfigActivity
 		 if(modeToSet.equals("SILENT"))
 		 {
