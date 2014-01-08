@@ -46,7 +46,7 @@ public class ConfigActivity extends Activity {
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this); 
 		String modeToSet = settings.getString("configMode", "VIBRATE");
 		//getting array position of slected item
-		int selectedHrs = settings.getInt("selectedHrs", 9);
+		int selectedHrs = settings.getInt("selectedHrs", 8);
 		final CheckBox all_acount = (CheckBox)findViewById(R.id.all_acount);
 		final LinearLayout parentLinear = (LinearLayout)findViewById(R.id.account_list);
 		/*Log.d("cuurent mode","=======================" );
@@ -117,13 +117,11 @@ public class ConfigActivity extends Activity {
 		int selectedHrs_Position = 0;
 		selectedHrs_Position = getHrsPosition(selectedHrs);
 
-		list.add("3");
-		list.add("6");
-		list.add("9");
+		list.add("4");
+		list.add("8");
 		list.add("12");
-		list.add("15");
-		list.add("18");
-		list.add("21");
+		list.add("16");
+		list.add("20");
 		list.add("24");
 
 		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, list);
@@ -394,22 +392,18 @@ public class ConfigActivity extends Activity {
 	public int getHrsPosition(int selectedHrs)
 	{
 		int selectedHrs_Position = 0;
-		if(selectedHrs == 3)
+		if(selectedHrs == 4)
 			selectedHrs_Position = 0;
-		else if(selectedHrs == 6)
+		else if(selectedHrs == 8)
 			selectedHrs_Position = 1;
-		else if(selectedHrs == 9)
-			selectedHrs_Position = 2;
 		else if(selectedHrs == 12)
+			selectedHrs_Position = 2;
+		else if(selectedHrs == 16)
 			selectedHrs_Position = 3;
-		else if(selectedHrs == 15)
+		else if(selectedHrs == 20)
 			selectedHrs_Position = 4;
-		else if(selectedHrs == 18)
-			selectedHrs_Position = 5;
-		else if(selectedHrs == 21)
-			selectedHrs_Position = 6;
 		else if(selectedHrs == 24)
-			selectedHrs_Position = 7;
+			selectedHrs_Position = 5;
 		return selectedHrs_Position;
 	}
 
