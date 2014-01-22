@@ -1,7 +1,9 @@
-package com.example.alarmmanager;
+package com.digitalchakra.profilechameleon;
 
 import java.util.ArrayList;
 import java.util.Date;
+
+import com.digitalchakra.profilechameleon.R;
 
 import android.annotation.SuppressLint;
 import android.app.NotificationManager;

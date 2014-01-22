@@ -1,6 +1,8 @@
-package com.example.alarmmanager;
+package com.digitalchakra.profilechameleon;
 
 import java.util.Calendar;
+
+import com.digitalchakra.profilechameleon.R;
 
 import android.net.Uri;
 import android.os.Bundle;

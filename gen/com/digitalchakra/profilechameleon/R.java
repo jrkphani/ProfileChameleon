@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package com.example.alarmmanager;
+package com.digitalchakra.profilechameleon;
 
 public final class R {
     public static final class attr {

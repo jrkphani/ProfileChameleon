@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.alarmmanager"
+    package="com.digitalchakra.profilechameleon"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -19,7 +19,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.example.alarmmanager.MainActivity"
+            android:name="com.digitalchakra.profilechameleon.MainActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name" >
             <intent-filter>
@@ -29,19 +29,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.alarmmanager.ConfigActivity"
+            android:name="com.digitalchakra.profilechameleon.ConfigActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
-            android:parentActivityName="com.example.alarmmanager.MainActivity" >
+            android:parentActivityName="com.digitalchakra.profilechameleon.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.alarmmanager.MainActivity" />
+                android:value="com.digitalchakra.profilechameleon.MainActivity" />
         </activity>
 
-        <service android:name="com.example.alarmmanager.Service_class" />
+        <service android:name="com.digitalchakra.profilechameleon.Service_class" />
 
         <activity
-            android:name="com.example.alarmmanager.AboutActivity"
+            android:name="com.digitalchakra.profilechameleon.AboutActivity"
            android:label="@string/app_name" >
         </activity>
     </application>
