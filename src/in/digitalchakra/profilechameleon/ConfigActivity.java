@@ -1,11 +1,11 @@
-package com.digitalchakra.profilechameleon;
+package in.digitalchakra.profilechameleon;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import com.digitalchakra.profilechameleon.R;
+import in.digitalchakra.profilechameleon.R;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;

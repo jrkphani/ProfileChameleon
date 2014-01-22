@@ -1,9 +1,9 @@
-package com.digitalchakra.profilechameleon;
+package in.digitalchakra.profilechameleon;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.digitalchakra.profilechameleon.R;
+import in.digitalchakra.profilechameleon.R;
 
 import android.annotation.SuppressLint;
 import android.app.NotificationManager;

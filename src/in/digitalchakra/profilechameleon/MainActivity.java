@@ -1,8 +1,8 @@
-package com.digitalchakra.profilechameleon;
+package in.digitalchakra.profilechameleon;
 
 import java.util.Calendar;
 
-import com.digitalchakra.profilechameleon.R;
+import in.digitalchakra.profilechameleon.R;
 
 import android.app.Activity;
 import android.app.AlarmManager;
