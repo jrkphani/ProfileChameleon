@@ -85,8 +85,9 @@ public void onCreate(Bundle savedInstanceState) {
             {
             	btnStartStop.setBackgroundResource(R.drawable.start);
             	startService(new Intent(getBaseContext(), Service_class.class));
+            	/*every 2 min*/
                 alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
-                		1*60*1000, pintent);
+                		1*120*1000, pintent);
                 settingsEditor.putInt("serviceStatus", 1);
                 settingsEditor.commit();
                 status_txt.setText(R.string.description_main2);
