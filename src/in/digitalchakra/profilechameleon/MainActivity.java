@@ -157,7 +157,7 @@ public void onCreate(Bundle savedInstanceState) {
  
 			// set dialog message
 			alertDialogBuilder
-				.setMessage("Click on the Chameleon Icon to turn the services on!")
+				.setMessage("Click on the Chameleon icon to turn the services on!")
 				.setCancelable(false)
 				/*.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog,int id) {
