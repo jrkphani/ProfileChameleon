@@ -111,10 +111,7 @@ public class ConfigActivity extends Activity {
 
 		
 		//Hrs selection
-		spinner_Hrs = (Spinner) findViewById(R.id.spinner_Hrs);
-		/*switch(selectedHrs){
-		
-		}*/
+		/*spinner_Hrs = (Spinner) findViewById(R.id.spinner_Hrs);
 		List<String> list = new ArrayList<String>();
 		int selectedHrs_Position = 0;
 		selectedHrs_Position = getHrsPosition(selectedHrs);
@@ -130,7 +127,7 @@ public class ConfigActivity extends Activity {
 		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner_Hrs.setAdapter(dataAdapter);
 		spinner_Hrs.setSelection(selectedHrs_Position);
-		
+		*/
 
 		//create checkbox for account list
 		CheckBox rb ;
@@ -231,7 +228,7 @@ public class ConfigActivity extends Activity {
 			 
 						// set dialog message
 						alertDialogBuilder
-							.setMessage("Choose accounts and profile mode !")
+							.setMessage("Choose calendars to sync and sound mode to start")
 							.setCancelable(false)
 							/*.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,int id) {
@@ -262,9 +259,9 @@ public class ConfigActivity extends Activity {
 	    int orientation = getResources().getConfiguration().orientation;
 	    // Checks the orientation of the screen
 	    if (orientation == Configuration.ORIENTATION_LANDSCAPE) {    
-	        mainLayout.setBackgroundResource(R.drawable.bg1_change);
+	        mainLayout.setBackgroundResource(R.drawable.bg_change);
 	    } else {
-	        mainLayout.setBackgroundResource(R.drawable.bg1);
+	        mainLayout.setBackgroundResource(R.drawable.bg);
 	    }
 	  }
 	public void saveClicked(View view)
@@ -290,15 +287,15 @@ public class ConfigActivity extends Activity {
 			selectedMode = "VIBRATE";
 		}
 		
-		spinner_Hrs = (Spinner) findViewById(R.id.spinner_Hrs);
-		String selected_Hrs = spinner_Hrs.getSelectedItem().toString();
+		//spinner_Hrs = (Spinner) findViewById(R.id.spinner_Hrs);
+		//String selected_Hrs = spinner_Hrs.getSelectedItem().toString();
 		//System.out.println(selected_Hrs);
 
 		int i=0;		
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this); 
 		SharedPreferences.Editor settingsEditor = settings.edit();
 		settingsEditor.putString("configMode", selectedMode);
-		settingsEditor.putInt("selectedHrs", Integer.parseInt(selected_Hrs));
+		//settingsEditor.putInt("selectedHrs", Integer.parseInt(selected_Hrs));
 		settingsEditor.remove("%acc_selected");
 		settingsEditor.remove("accounts_selected_size");
 		settingsEditor.remove("accounts_selected_all");
@@ -325,7 +322,8 @@ public class ConfigActivity extends Activity {
 		}
 		settingsEditor.commit();
 		//Toast.makeText(getBaseContext(),selectedMode + " Saved",Toast.LENGTH_SHORT).show();
-		Toast.makeText(getBaseContext(),"Saved",Toast.LENGTH_SHORT).show();
+		Toast.makeText(getBaseContext(),"Settings Saved",Toast.LENGTH_SHORT).show();
+		onBackPressed();
 	}
 	public enum Modes
 	 {

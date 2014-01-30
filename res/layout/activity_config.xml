@@ -3,7 +3,7 @@
 android:orientation="vertical"
 android:layout_width="fill_parent"
 android:layout_height="fill_parent"
-android:background="@drawable/bg1"
+android:background="@drawable/bg"
 android:id="@+id/config_page"
 >
 
@@ -44,7 +44,7 @@ android:id="@+id/config_page"
 							        <RadioButton android:id="@+id/radio_vibrate"
 								        android:layout_width="wrap_content"
 								        android:layout_height="wrap_content"
-								        android:text="VIBRATE"
+								        android:text="Vibrate"
    							            android:layout_marginTop="20dp"
 								        android:onClick="onRadioButtonClicked"/>
 							    </LinearLayout>
@@ -61,7 +61,7 @@ android:id="@+id/config_page"
 							        <RadioButton android:id="@+id/radio_normal"
 								        android:layout_width="wrap_content"
 								        android:layout_height="wrap_content"
-								        android:text="NORMAL"
+								        android:text="Normal"
 								        android:layout_marginTop="20dp"
 								        android:onClick="onRadioButtonClicked"/>
 							    </LinearLayout>
@@ -79,12 +79,12 @@ android:id="@+id/config_page"
 								        android:layout_width="wrap_content"
 								        android:layout_height="wrap_content"
 								        android:layout_marginTop="20dp"
-								        android:text="SILENT"
+								        android:text="Silent"
 								        android:onClick="onRadioButtonClicked"/>
 							    </LinearLayout>
 							    
 						</RadioGroup>
-						<LinearLayout 
+						<!--  <LinearLayout 
 			                  android:layout_width="fill_parent"
 			                  android:layout_height="wrap_content"
 			                  android:layout_gravity="center_horizontal"
@@ -113,6 +113,7 @@ android:id="@+id/config_page"
 								        />
 							    </LinearLayout>
 							    </LinearLayout>
+							    -->
 						<TextView 
 						    android:text="@string/description_config2"
 							android:id="@+id/Account_list_title"

@@ -42,9 +42,14 @@ public class Service_class extends Service {
 		//setting value 1 , to specify the service status is running 
 		settingsEditor.putInt("serviceStatus", 1);
 		settingsEditor.commit();
+		System.out.println("service runing .....");
+		int is_event_active  = settings.getInt("is_event_active", 0);
+		
     	AudioManager audio = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
         int vibrate = 0;
         int i=0;
+        int current_mode=2;
+        int previous_mode=2;
 		new ArrayList<String>();
 		
 		Uri calendaruri = Uri.parse("content://com.android.calendar/events");
@@ -83,16 +88,48 @@ public class Service_class extends Service {
 							 {
 								//get prefer mode
 								String modeToSet = settings.getString("configMode", "VIBRATE");
+								if(is_event_active  == 0)
+								{
+									//get the current mode
+									previous_mode = audio.getRingerMode();
+									//System.out.println("get previous_mode");
+									//System.out.println(previous_mode);
+									settingsEditor.putInt("previous_mode", previous_mode);
+									settingsEditor.commit();
+								}
+								
 								Change_profile(modeToSet);
 							 }
 							 else
 							 {
-								 if(audio.getRingerMode() !=2)
+								//set to previous mode when there is no event
+								//System.out.println("going normal");
+								//System.out.println(previous_mode);
+								 if(is_event_active == 1)
 								 {
-									 //set to normal mode when there is no event
-									 Change_profile("NORMAL");
+									 settingsEditor.putInt("is_event_active", 0);
+									 settingsEditor.commit();
+									 previous_mode = settings.getInt("previous_mode", 2);
+									 current_mode = audio.getRingerMode();
+									 if(current_mode != previous_mode)
+									 {
+										 switch (previous_mode)
+										 {
+										     case AudioManager.RINGER_MODE_SILENT:
+										    	 Change_profile("SILENT");
+										         break;
+										     case AudioManager.RINGER_MODE_VIBRATE:
+										    	 Change_profile("VIBRATE");
+										    	 break;
+										     case AudioManager.RINGER_MODE_NORMAL:
+										    	 Change_profile("NORMAL");
+										    	 break;
+										     default:
+										    	 Change_profile("NORMAL");
+										         break;
+										 }
+									 }
 								 }
-								 
 							 }
 						 }
 						
@@ -112,18 +149,50 @@ public class Service_class extends Service {
 			 if(vibrate==1)
 			 {
 				//get prefer mode
-				String modeToSet = settings.getString("configMode", "VIBRATE");
-				Change_profile(modeToSet);
+					String modeToSet = settings.getString("configMode", "VIBRATE");
+					if(is_event_active  == 0)
+					{
+						//get the current mode
+						previous_mode = audio.getRingerMode();
+						//System.out.println("get previous_mode");
+						//System.out.println(previous_mode);
+						settingsEditor.putInt("previous_mode", previous_mode);
+						settingsEditor.commit();
+					}
+					
+					Change_profile(modeToSet);
 			 }
 			 else
 			 {
-				 if(audio.getRingerMode() !=2)
+				//set to previous mode when there is no event
+				//System.out.println("going normal");
+				//System.out.println(previous_mode);
+				 if(is_event_active == 1)
 				 {
-					 //set to normal mode when there is no event
-					 audio.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+					 settingsEditor.putInt("is_event_active", 0);
+					 settingsEditor.commit();
+					 previous_mode = settings.getInt("previous_mode", 2);
+					 current_mode = audio.getRingerMode();
+					 if(current_mode != previous_mode)
+					 {
+						 switch (previous_mode)
+						 {
+						     case AudioManager.RINGER_MODE_SILENT:
+						    	 Change_profile("SILENT");
+						         break;
+						     case AudioManager.RINGER_MODE_VIBRATE:
+						    	 Change_profile("VIBRATE");
+						    	 break;
+						     case AudioManager.RINGER_MODE_NORMAL:
+						    	 Change_profile("NORMAL");
+						    	 break;
+						     default:
+						    	 Change_profile("NORMAL");
+						         break;
+						 }
+					 }
 				 }
-				 
-			 }
+			}
 		 }
     	
     }
@@ -143,7 +212,7 @@ public class Service_class extends Service {
         super.onCreate();
     }
 
-	@SuppressLint("NewApi")
+
 	private void notification_top(String mode_changed)
     {
     	//this md will be used to modify the notification
@@ -171,7 +240,7 @@ public class Service_class extends Service {
     	mCursor.moveToFirst();
     	 int vibrate=0;
     	 SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-    	 int selectedHrs = settings.getInt("selectedHrs", 9);
+    	 int selectedHrs = settings.getInt("selectedHrs", 10);
 		 while(mCursor.moveToNext())
 		 {
 			 long currentTime = new Date().getTime();
@@ -195,13 +264,15 @@ public class Service_class extends Service {
     }
     private String Change_profile(String modeToSet)
     {
+    	SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+		SharedPreferences.Editor settingsEditor = settings.edit();
+    	settingsEditor.putInt("is_event_active", 1);
+    	settingsEditor.commit();
     	int notify = 0;
     	AudioManager audio = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
     	//change profile mode to user preferred mode when there is an event
     	int current_mode = audio.getRingerMode();
-    	//Log.d("eeee","eeee");
-    	System.out.println(current_mode);
-    	//Log.d("ffff","fffff");
+    	//System.out.println(current_mode);
 		 //refer the comparing string ConfigActivity
 		 if(modeToSet.equals("SILENT"))
 		 {

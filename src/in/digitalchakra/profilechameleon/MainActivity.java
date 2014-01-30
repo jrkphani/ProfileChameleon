@@ -7,14 +7,22 @@ import in.digitalchakra.profilechameleon.R;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.media.AudioManager;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.support.v4.app.NotificationCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
@@ -32,7 +40,7 @@ public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     ////
-    
+    final AudioManager audio = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
     int orientation = getResources().getConfiguration().orientation;
     View mainLayout = findViewById(R.id.home_page);
     //TextView status_txt = (TextView) findViewById(R.id.status_txt);
@@ -97,6 +105,26 @@ public void onCreate(Bundle savedInstanceState) {
             {
             	btnStartStop.setBackgroundResource(R.drawable.stop);
             	stopService(new Intent(getBaseContext(), Service_class.class));
+            	//stop service and role back profile
+            	int is_event_active  = settings.getInt("is_event_active", 0);
+            	if(is_event_active == 1)
+            	{
+            		settingsEditor.putInt("is_event_active", 0);
+					settingsEditor.commit();
+					int previous_mode = settings.getInt("previous_mode", 2);
+					switch (previous_mode)
+					 {
+					     case AudioManager.RINGER_MODE_SILENT:
+					    	 Change_profile("SILENT");
+					         break;
+					     case AudioManager.RINGER_MODE_VIBRATE:
+					    	 Change_profile("VIBRATE");
+					    	 break;
+					     case AudioManager.RINGER_MODE_NORMAL:
+					    	 Change_profile("NORMAL");
+					    	 break;
+					 }
+            	}
                 alarm.cancel(pintent);
                 settingsEditor.putInt("serviceStatus", 0);
                 settingsEditor.commit();
@@ -241,4 +269,115 @@ public boolean onCreateOptionsMenu(Menu menu)
      //menu.add(1, 5, 4, "Item5").setIcon(R.drawable.notification_icon);
 	 return true;
 	}
+
+private String Change_profile(String modeToSet)
+{
+	SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+	SharedPreferences.Editor settingsEditor = settings.edit();
+	settingsEditor.putInt("is_event_active", 1);
+	settingsEditor.commit();
+	int notify = 0;
+	AudioManager audio = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+	//change profile mode to user preferred mode when there is an event
+	int current_mode = audio.getRingerMode();
+	//System.out.println(current_mode);
+	 //refer the comparing string ConfigActivity
+	 if(modeToSet.equals("SILENT"))
+	 {
+		 //change mode if mode is not in 'SILENT' 
+		// Toast.makeText(getApplicationContext(), "SILET CON", Toast.LENGTH_SHORT).show();
+		 switch (current_mode)
+		 {
+		     case AudioManager.RINGER_MODE_SILENT:
+		    	 notify=0;
+		         break;
+		     default:
+		    	 audio.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+				 notify=1;
+		         break;
+		 }
+	 }
+	 else if(modeToSet.equals("VIBRATE"))
+	 {
+		//change mode if mode is not in 'VIBRATE'
+		// Toast.makeText(getApplicationContext(), "VIBRATE CON", Toast.LENGTH_SHORT).show();
+		 switch (current_mode)
+		 {
+		     case AudioManager.RINGER_MODE_VIBRATE:
+		    	 notify=0;
+		         break;
+		     default:
+		    	 audio.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
+				 Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);				 
+				// Vibrate for 300 milliseconds
+				 v.vibrate(300);
+				 notify=1;
+		         break;
+		 }
+	 }
+	 else if(modeToSet.equals("NORMAL"))
+	 {
+		//change mode if mode is not in 'NORMAL'
+		// Toast.makeText(getApplicationContext(), "NORMAL CON", Toast.LENGTH_SHORT).show();
+		 switch (current_mode)
+		 {
+		     case AudioManager.RINGER_MODE_NORMAL:
+		    	 notify=0;
+		         break;
+		     default:
+		    	 audio.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+				 Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+			     Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+			     r.play();
+				 notify=1;
+		         break;
+		 }
+	 }
+	 else
+	 {
+		//change profile mode default case to vibrate if any error occurs
+		 switch (current_mode)
+		 {
+		     case AudioManager.RINGER_MODE_VIBRATE:
+		    	 notify=0;
+		         break;
+		     default:
+		    	 audio.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
+				 Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);				 
+				// Vibrate for 300 milliseconds
+				 v.vibrate(300);
+				 notify=1;
+		         break;
+		 }
+	 }
+	 if(notify == 1)
+	 {
+		//notification
+		 notification_top(modeToSet);
+	 }
+	return modeToSet;
+	 
+	 
+}
+private void notification_top(String mode_changed)
+{
+	//this md will be used to modify the notification
+    final int mId = 1014;
+    Resources appR = this.getResources();
+    CharSequence notif_title  = appR.getText(appR.getIdentifier("app_name",
+    "string", this.getPackageName()));
+    Intent resultIntent = new Intent(getBaseContext(), MainActivity.class);
+	PendingIntent resultPendingIntent =
+	    PendingIntent.getActivity(getBaseContext(), 0,resultIntent,PendingIntent.FLAG_UPDATE_CURRENT);
+
+	NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
+	        getApplicationContext()).setSmallIcon(R.drawable.ic_launcher)
+	        .setContentTitle(notif_title)
+	        .setContentText("Your phone is set to "+mode_changed+" mode")
+	        .setContentIntent(resultPendingIntent)
+	        .setAutoCancel(true);
+
+	NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+	manager.notify(mId, mBuilder.build());
+}
 }
