@@ -287,7 +287,7 @@ public class Service_class extends Service {
 			     default:
 			    	 audio.setRingerMode(AudioManager.RINGER_MODE_SILENT);
 					 notify=1;
-					 notification_message = "Silent";
+					 notification_message = "Phone set to Silent";
 			         break;
 			 }
 		 }
@@ -306,7 +306,7 @@ public class Service_class extends Service {
 					// Vibrate for 300 milliseconds
 					 v.vibrate(300);
 					 notify=1;
-					 notification_message = "Vibrate";
+					 notification_message = "Phone set to Vibrate";
 			         break;
 			 }
 		 }
@@ -324,7 +324,7 @@ public class Service_class extends Service {
 					 Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 				     Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
 				     r.play();
-				     notification_message = "Normal";
+				     notification_message = "Phone set to Normal";
 					 notify=1;
 			         break;
 			 }
@@ -343,14 +343,14 @@ public class Service_class extends Service {
 					// Vibrate for 300 milliseconds
 					 v.vibrate(300);
 					 notify=1;
-					 notification_message = "Vibrate";
+					// Event "[EVENT_NAME]" in progress. Phone set to [Vibrate, Silent, Normal] mode.
+					 notification_message = "Phone set to Vibrate";
 			         break;
 			 }
 		 }
 		 if(notify == 1)
 		 {
 			//notification
-//			 /Event "[EVENT_NAME]" in progress. Phone set to [Vibrate, Silent, Normal] mode.
 			 notification_top(modeToSet, notification_message);
 		 }
 		return modeToSet;

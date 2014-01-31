@@ -10,11 +10,13 @@
     <string name="description_config1">Select phone mode during events</string>
     <string name="description_config2">Select calendars to monitor:</string>
     <string name="title_activity_about">AboutActivity</string>
-    <string name="description_about">Ever had your phone ring loudly in the middle of a meeting or a movie?
+    <string name="description_about">
+        Ever had your phone ring loudly in the middle of a meeting? Profile Chameleon saves you a ton of embarrassment by turning your phone silent automagically when there is an event in progress!
         \n\n
-        Profile Chameleon saves you a ton of embarrassment by turning your phone silent automagically when there is an event in progress!
-        \n\n
-		Need only your work calendar to be monitored? Profile Chameleon has you covered!</string>
+		Profile Chameleon monitors your calendars and keeps track of all your events. 
+		\n\n
+		Need only your work calendar to be monitored? Profile Chameleon has you covered! You can select all your calendars, or only specific calendars based on your needs.
+	</string>
 	<string name="dc">Developed by</string>
 
     <string name="selectHrs">Maximum event time</string>

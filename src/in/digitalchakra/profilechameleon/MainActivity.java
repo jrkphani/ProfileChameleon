@@ -277,6 +277,7 @@ private String Change_profile(String modeToSet)
 	settingsEditor.putInt("is_event_active", 1);
 	settingsEditor.commit();
 	int notify = 0;
+	String notification_message="";
 	AudioManager audio = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
 	//change profile mode to user preferred mode when there is an event
 	int current_mode = audio.getRingerMode();
@@ -294,6 +295,7 @@ private String Change_profile(String modeToSet)
 		     default:
 		    	 audio.setRingerMode(AudioManager.RINGER_MODE_SILENT);
 				 notify=1;
+				 notification_message = "Phone set to Silent";
 		         break;
 		 }
 	 }
@@ -312,6 +314,7 @@ private String Change_profile(String modeToSet)
 				// Vibrate for 300 milliseconds
 				 v.vibrate(300);
 				 notify=1;
+				 notification_message = "Phone set to Vibrate";
 		         break;
 		 }
 	 }
@@ -329,6 +332,7 @@ private String Change_profile(String modeToSet)
 				 Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 			     Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
 			     r.play();
+			     notification_message = "Phone set to Normal";
 				 notify=1;
 		         break;
 		 }
@@ -347,19 +351,21 @@ private String Change_profile(String modeToSet)
 				// Vibrate for 300 milliseconds
 				 v.vibrate(300);
 				 notify=1;
+				// Event "[EVENT_NAME]" in progress. Phone set to [Vibrate, Silent, Normal] mode.
+				 notification_message = "Phone set to Vibrate";
 		         break;
 		 }
 	 }
 	 if(notify == 1)
 	 {
 		//notification
-		 notification_top(modeToSet);
+		 notification_top(modeToSet, notification_message);
 	 }
 	return modeToSet;
 	 
 	 
 }
-private void notification_top(String mode_changed)
+private void notification_top(String mode_changed, String notification_message)
 {
 	//this md will be used to modify the notification
     final int mId = 1014;
@@ -373,7 +379,7 @@ private void notification_top(String mode_changed)
 	NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
 	        getApplicationContext()).setSmallIcon(R.drawable.ic_launcher)
 	        .setContentTitle(notif_title)
-	        .setContentText("Your phone is set to "+mode_changed+" mode")
+	        .setContentText(notification_message)
 	        .setContentIntent(resultPendingIntent)
 	        .setAutoCancel(true);
 
