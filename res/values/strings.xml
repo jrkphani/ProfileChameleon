@@ -7,17 +7,15 @@
     <string name="title_activity_config">ConfigActivity</string>
     <string name="description_main1">Click me to turn my services on!</string>
     <string name="description_main2">Click me to turn my services off!</string>
-    <string name="description_config1">Choose the profile mode you want!</string>
-    <string name="description_config2">Select calendar accounts to sync that are to be monitored:</string>
+    <string name="description_config1">Select phone mode during events</string>
+    <string name="description_config2">Select calendars to monitor:</string>
     <string name="title_activity_about">AboutActivity</string>
     <string name="description_about">Ever had your phone ring loudly in the middle of a meeting or a movie?
         \n\n
         Profile Chameleon saves you a ton of embarrassment by turning your phone silent automagically when there is an event in progress!
         \n\n
-- Need only your work account to be monitored? 
-\n\n
-Profile Chameleon gives you the flexibility to choose only the accounts which it should monitor!</string>
-<string name="dc">Developed by</string>
+		Need only your work calendar to be monitored? Profile Chameleon has you covered!</string>
+	<string name="dc">Developed by</string>
 
     <string name="selectHrs">Maximum event time</string>
 

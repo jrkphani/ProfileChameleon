@@ -34,23 +34,22 @@ public final class R {
         public static final int vibrate=0x7f02000a;
     }
     public static final class id {
-        public static final int Account_list_title=0x7f080009;
-        public static final int account_list=0x7f08000b;
-        public static final int action_settings=0x7f080011;
-        public static final int all_acount=0x7f08000a;
-        public static final int back=0x7f08000d;
-        public static final int configBtn=0x7f080010;
+        public static final int Account_list_title=0x7f080008;
+        public static final int account_list=0x7f08000a;
+        public static final int action_settings=0x7f080010;
+        public static final int all_acount=0x7f080009;
+        public static final int back=0x7f08000c;
+        public static final int configBtn=0x7f08000f;
         public static final int config_page=0x7f080003;
         public static final int copyright=0x7f080002;
         public static final int dc_logo=0x7f080001;
         public static final int developed_by=0x7f080000;
-        public static final int home_page=0x7f08000e;
-        public static final int radio_normal=0x7f080007;
-        public static final int radio_silent=0x7f080008;
+        public static final int home_page=0x7f08000d;
+        public static final int radio_silent=0x7f080007;
         public static final int radio_vibrate=0x7f080006;
         public static final int radiogroup_mode=0x7f080005;
-        public static final int saveBtn=0x7f08000c;
-        public static final int startstopserviceBtn=0x7f08000f;
+        public static final int saveBtn=0x7f08000b;
+        public static final int startstopserviceBtn=0x7f08000e;
         public static final int status_txt=0x7f080004;
     }
     public static final class layout {

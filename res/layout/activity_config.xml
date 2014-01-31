@@ -48,7 +48,7 @@ android:id="@+id/config_page"
    							            android:layout_marginTop="20dp"
 								        android:onClick="onRadioButtonClicked"/>
 							    </LinearLayout>
-							    <LinearLayout
+							  <!--    <LinearLayout
 							        android:layout_width="wrap_content"
 							        android:layout_height="wrap_content"
 							        android:orientation="horizontal">
@@ -64,7 +64,7 @@ android:id="@+id/config_page"
 								        android:text="Normal"
 								        android:layout_marginTop="20dp"
 								        android:onClick="onRadioButtonClicked"/>
-							    </LinearLayout>
+							    </LinearLayout>-->
 							    <LinearLayout
 							        android:layout_width="wrap_content"
 							        android:layout_height="wrap_content"

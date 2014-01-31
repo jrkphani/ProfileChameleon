@@ -54,13 +54,13 @@ public class ConfigActivity extends Activity {
 		/*Log.d("cuurent mode","=======================" );
 		Log.d("cuurent mode",modeToSet );*/
 		 RadioButton vibrateRadio = (RadioButton) findViewById(R.id.radio_vibrate);
-		 RadioButton normalRadio = (RadioButton) findViewById(R.id.radio_normal);
+		 //RadioButton normalRadio = (RadioButton) findViewById(R.id.radio_normal);
 		 RadioButton silentRadio = (RadioButton) findViewById(R.id.radio_silent);
 		switch(Modes.valueOf(modeToSet))
 		{
-        case NORMAL:
-        	normalRadio.setChecked(true);
-            break;
+        //case NORMAL:
+        //	normalRadio.setChecked(true);
+         //   break;
         case VIBRATE:
         	vibrateRadio.setChecked(true);
         	break;
@@ -267,14 +267,15 @@ public class ConfigActivity extends Activity {
 	public void saveClicked(View view)
 	{
 		RadioButton vibrateRadio = (RadioButton) findViewById(R.id.radio_vibrate);
-		RadioButton normalRadio = (RadioButton) findViewById(R.id.radio_normal);
+		//RadioButton normalRadio = (RadioButton) findViewById(R.id.radio_normal);
 		RadioButton silentRadio = (RadioButton) findViewById(R.id.radio_silent);
 		String selectedMode;
-		if(normalRadio.isChecked())
+		/*if(normalRadio.isChecked())
 		{
 			selectedMode = "NORMAL";
 		}
-		else if(vibrateRadio.isChecked())
+		else*/
+			if(vibrateRadio.isChecked())
 		{
 			selectedMode = "VIBRATE";
 		}
@@ -332,22 +333,22 @@ public class ConfigActivity extends Activity {
 	
 	public void onRadioButtonClicked(View v) {
 		RadioButton vibrateRadio = (RadioButton) findViewById(R.id.radio_vibrate);
-		 RadioButton normalRadio = (RadioButton) findViewById(R.id.radio_normal);
+		// RadioButton normalRadio = (RadioButton) findViewById(R.id.radio_normal);
 		 RadioButton silentRadio = (RadioButton) findViewById(R.id.radio_silent);
 		switch (v.getId()) {
         case R.id.radio_vibrate:
         	silentRadio.setChecked(false);
-        	normalRadio.setChecked(false);
+        	//normalRadio.setChecked(false);
         	//vibrateRadio.setChecked(false);
             break;
-        case R.id.radio_normal:
+        /*case R.id.radio_normal:
         	silentRadio.setChecked(false);
         	//normalRadio.setChecked(false);
         	vibrateRadio.setChecked(false);
-            break;
+            break;*/
         case R.id.radio_silent:
         	//silentRadio.setChecked(false);
-        	normalRadio.setChecked(false);
+        	//normalRadio.setChecked(false);
         	vibrateRadio.setChecked(false);
             break;
     }

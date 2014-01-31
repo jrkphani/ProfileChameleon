@@ -213,7 +213,7 @@ public class Service_class extends Service {
     }
 
 
-	private void notification_top(String mode_changed)
+	private void notification_top(String mode_changed, String notification_message)
     {
     	//this md will be used to modify the notification
         final int mId = 1014;
@@ -227,7 +227,7 @@ public class Service_class extends Service {
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
 		        getApplicationContext()).setSmallIcon(R.drawable.ic_launcher)
 		        .setContentTitle(notif_title)
-		        .setContentText("Your phone is set to "+mode_changed+" mode")
+		        .setContentText(notification_message)
 		        .setContentIntent(resultPendingIntent)
 		        .setAutoCancel(true);
 
@@ -269,6 +269,7 @@ public class Service_class extends Service {
     	settingsEditor.putInt("is_event_active", 1);
     	settingsEditor.commit();
     	int notify = 0;
+    	String notification_message="";
     	AudioManager audio = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
     	//change profile mode to user preferred mode when there is an event
     	int current_mode = audio.getRingerMode();
@@ -286,6 +287,7 @@ public class Service_class extends Service {
 			     default:
 			    	 audio.setRingerMode(AudioManager.RINGER_MODE_SILENT);
 					 notify=1;
+					 notification_message = "Silent";
 			         break;
 			 }
 		 }
@@ -304,6 +306,7 @@ public class Service_class extends Service {
 					// Vibrate for 300 milliseconds
 					 v.vibrate(300);
 					 notify=1;
+					 notification_message = "Vibrate";
 			         break;
 			 }
 		 }
@@ -321,6 +324,7 @@ public class Service_class extends Service {
 					 Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 				     Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
 				     r.play();
+				     notification_message = "Normal";
 					 notify=1;
 			         break;
 			 }
@@ -339,13 +343,15 @@ public class Service_class extends Service {
 					// Vibrate for 300 milliseconds
 					 v.vibrate(300);
 					 notify=1;
+					 notification_message = "Vibrate";
 			         break;
 			 }
 		 }
 		 if(notify == 1)
 		 {
 			//notification
-			 notification_top(modeToSet);
+//			 /Event "[EVENT_NAME]" in progress. Phone set to [Vibrate, Silent, Normal] mode.
+			 notification_top(modeToSet, notification_message);
 		 }
 		return modeToSet;
 		 
