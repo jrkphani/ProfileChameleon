@@ -11,11 +11,11 @@
     <string name="description_config2">Select calendars to monitor:</string>
     <string name="title_activity_about">AboutActivity</string>
     <string name="description_about">
-        Ever had your phone ring loudly in the middle of a meeting? Profile Chameleon saves you a ton of embarrassment by turning your phone silent automagically when there is an event in progress!
+        Ever had your phone ring loudly in the middle of a meeting? Profile Chameleon saves you a ton of embarrassment by turning your phone silent automagically when there is an event in progress!. Once the event is over, Profile Chameleon will set your phone back to its original mode.
         \n\n
 		Profile Chameleon monitors your calendars and keeps track of all your events. 
 		\n\n
-		Need only your work calendar to be monitored? Profile Chameleon has you covered! You can select all your calendars, or only specific calendars based on your needs.
+		Need only your work calendar to be monitored? Profile Chameleon has you covered! You can select all your calendars, or only specific calendars based on your needs
 	</string>
 	<string name="dc">Developed by</string>
 

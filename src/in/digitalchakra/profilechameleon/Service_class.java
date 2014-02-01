@@ -42,7 +42,7 @@ public class Service_class extends Service {
 		//setting value 1 , to specify the service status is running 
 		settingsEditor.putInt("serviceStatus", 1);
 		settingsEditor.commit();
-		System.out.println("service runing .....");
+		//System.out.println("service runing .....");
 		int is_event_active  = settings.getInt("is_event_active", 0);
 		
     	AudioManager audio = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
@@ -62,6 +62,7 @@ public class Service_class extends Service {
 				    Calendars.CALENDAR_DISPLAY_NAME,
 				    Calendars.OWNER_ACCOUNT,
 				    Events.DTEND,
+				    Events.TITLE,
 				    Events.DTSTART
 				};
 		int account_selected_size = settings.getInt("accounts_selected_size", 0);
@@ -238,6 +239,7 @@ public class Service_class extends Service {
     private int Check_event(Cursor mCursor)
     {
     	mCursor.moveToFirst();
+    	String event_title = "";
     	 int vibrate=0;
     	 SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
     	 int selectedHrs = settings.getInt("selectedHrs", 10);
@@ -246,6 +248,9 @@ public class Service_class extends Service {
 			 long currentTime = new Date().getTime();
 			 long eventSTime = mCursor.getLong(mCursor.getColumnIndex("dtstart"));
 			 long eventETime = mCursor.getLong(mCursor.getColumnIndex("dtend"));
+			 //String eventTitle  = mCursor.getColumnIndex("title");
+			 //System.out.println("event title");
+			 //System.out.println(mCursor.getString(mCursor.getColumnIndex("title"))); 
 			 
 			/*convert to Hrs*/
 			 long eventTime = (eventETime - eventSTime)/3600000;
@@ -256,6 +261,7 @@ public class Service_class extends Service {
 				 if((currentTime >= eventSTime ) && (currentTime <= eventETime) && (eventTime <= selectedHrs))
 				 {
 						 vibrate=1;
+						 event_title = mCursor.getString(mCursor.getColumnIndex("title"));
 						 //System.out.println("thissssss eventttttttt");
 				 }
 
