@@ -82,23 +82,22 @@ public class Service_class extends Service {
 						String[] selectionArgs = new String[] {acc_name};
 						mCursor = getContentResolver().query(calendaruri, EVENT_PROJECTION, selection, selectionArgs, null);
 						if(mCursor.getCount()>0)
-						 {							
+						 {
+							is_event_active  = settings.getInt("is_event_active", 0);
+							if(is_event_active  == 0)
+							{
+								//get the current mode
+								previous_mode = audio.getRingerMode();
+								//System.out.println("get previous_mode");
+								//System.out.println(previous_mode);
+								settingsEditor.putInt("previous_mode", previous_mode);
+								settingsEditor.commit();
+							} 
 							vibrate = Check_event(mCursor);
-							 
 							 if(vibrate==1)
 							 {
 								//get prefer mode
 								String modeToSet = settings.getString("configMode", "VIBRATE");
-								if(is_event_active  == 0)
-								{
-									//get the current mode
-									previous_mode = audio.getRingerMode();
-									//System.out.println("get previous_mode");
-									//System.out.println(previous_mode);
-									settingsEditor.putInt("previous_mode", previous_mode);
-									settingsEditor.commit();
-								}
-								
 								Change_profile(modeToSet);
 							 }
 							 else
@@ -108,8 +107,6 @@ public class Service_class extends Service {
 								//System.out.println(previous_mode);
 								 if(is_event_active == 1)
 								 {
-									 settingsEditor.putInt("is_event_active", 0);
-									 settingsEditor.commit();
 									 previous_mode = settings.getInt("previous_mode", 2);
 									 current_mode = audio.getRingerMode();
 									 if(current_mode != previous_mode)
@@ -130,6 +127,8 @@ public class Service_class extends Service {
 										         break;
 										 }
 									 }
+									 settingsEditor.putInt("is_event_active", 0);
+									 settingsEditor.commit();
 								 }
 							 }
 						 }
@@ -214,7 +213,7 @@ public class Service_class extends Service {
     }
 
 
-	private void notification_top(String mode_changed, String notification_message)
+	private void notification_top(String notification_message)
     {
     	//this md will be used to modify the notification
         final int mId = 1014;
@@ -239,10 +238,12 @@ public class Service_class extends Service {
     private int Check_event(Cursor mCursor)
     {
     	mCursor.moveToFirst();
-    	String event_title = "";
     	 int vibrate=0;
     	 SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+    	 SharedPreferences.Editor settingsEditor = settings.edit();
     	 int selectedHrs = settings.getInt("selectedHrs", 10);
+    	 settingsEditor.putString("event_title",null);
+         settingsEditor.commit();
 		 while(mCursor.moveToNext())
 		 {
 			 long currentTime = new Date().getTime();
@@ -260,9 +261,11 @@ public class Service_class extends Service {
 			 System.out.println("=======ttttttt========"+eventTime);*/
 				 if((currentTime >= eventSTime ) && (currentTime <= eventETime) && (eventTime <= selectedHrs))
 				 {
-						 vibrate=1;
-						 event_title = mCursor.getString(mCursor.getColumnIndex("title"));
-						 //System.out.println("thissssss eventttttttt");
+					 System.out.println("event start");
+					 	vibrate=1;
+					 	settingsEditor.putInt("is_event_active", 1);
+						settingsEditor.putString("event_title", mCursor.getString(mCursor.getColumnIndex("title")));
+						settingsEditor.commit();
 				 }
 
 		 }
@@ -271,11 +274,13 @@ public class Service_class extends Service {
     private String Change_profile(String modeToSet)
     {
     	SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-		SharedPreferences.Editor settingsEditor = settings.edit();
-    	settingsEditor.putInt("is_event_active", 1);
-    	settingsEditor.commit();
+		//SharedPreferences.Editor settingsEditor = settings.edit();
+    	//settingsEditor.putInt("is_event_active", 1);
+    	//settingsEditor.commit();
     	int notify = 0;
     	String notification_message="";
+    	String event_title = settings.getString("event_title","Event");
+    	int is_event_active  = settings.getInt("is_event_active", 0);
     	AudioManager audio = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
     	//change profile mode to user preferred mode when there is an event
     	int current_mode = audio.getRingerMode();
@@ -293,7 +298,14 @@ public class Service_class extends Service {
 			     default:
 			    	 audio.setRingerMode(AudioManager.RINGER_MODE_SILENT);
 					 notify=1;
-					 notification_message = "Phone set to Silent";
+							 if(is_event_active == 1)
+							 {
+								 notification_message = event_title+" in progress. Phone set to Silent"; 
+							 }
+							 else
+							 {
+								 notification_message = event_title+" ended. Phone set to Silent";
+							 }
 			         break;
 			 }
 		 }
@@ -312,7 +324,14 @@ public class Service_class extends Service {
 					// Vibrate for 300 milliseconds
 					 v.vibrate(300);
 					 notify=1;
-					 notification_message = "Phone set to Vibrate";
+					 if(is_event_active == 1)
+					 {
+						 notification_message = event_title+" in progress. Phone set to Vibrate"; 
+					 }
+					 else
+					 {
+						 notification_message = event_title+" ended. Phone set to Vibrate";
+					 }
 			         break;
 			 }
 		 }
@@ -330,7 +349,14 @@ public class Service_class extends Service {
 					 Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 				     Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
 				     r.play();
-				     notification_message = "Phone set to Normal";
+				     if(is_event_active == 1)
+					 {
+						 notification_message = event_title+" in progress. Phone set to Normal"; 
+					 }
+					 else
+					 {
+						 notification_message = event_title+" ended. Phone set to Normal";
+					 }
 					 notify=1;
 			         break;
 			 }
@@ -350,14 +376,21 @@ public class Service_class extends Service {
 					 v.vibrate(300);
 					 notify=1;
 					// Event "[EVENT_NAME]" in progress. Phone set to [Vibrate, Silent, Normal] mode.
-					 notification_message = "Phone set to Vibrate";
+					 if(is_event_active == 1)
+					 {
+						 notification_message = event_title+" in progress. Phone set to Vibrate"; 
+					 }
+					 else
+					 {
+						 notification_message = event_title+" ended. Phone set to Vibrate";
+					 }
 			         break;
 			 }
 		 }
 		 if(notify == 1)
 		 {
 			//notification
-			 notification_top(modeToSet, notification_message);
+			 notification_top(notification_message);
 		 }
 		return modeToSet;
 		 

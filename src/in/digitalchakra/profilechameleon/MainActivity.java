@@ -127,6 +127,7 @@ public void onCreate(Bundle savedInstanceState) {
             	}
                 alarm.cancel(pintent);
                 settingsEditor.putInt("serviceStatus", 0);
+                settingsEditor.putString("event_title",null);
                 settingsEditor.commit();
                 status_txt.setText(R.string.description_main1);
                 Toast.makeText(getBaseContext(),"Service stopped", Toast.LENGTH_SHORT).show();
@@ -274,7 +275,7 @@ private String Change_profile(String modeToSet)
 {
 	SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
 	SharedPreferences.Editor settingsEditor = settings.edit();
-	settingsEditor.putInt("is_event_active", 1);
+	settingsEditor.putInt("is_event_active", 0);
 	settingsEditor.commit();
 	int notify = 0;
 	String notification_message="";
@@ -295,7 +296,7 @@ private String Change_profile(String modeToSet)
 		     default:
 		    	 audio.setRingerMode(AudioManager.RINGER_MODE_SILENT);
 				 notify=1;
-				 notification_message = "Phone set to Silent";
+				 notification_message = "Service stopped, phone set to Silent";
 		         break;
 		 }
 	 }
@@ -314,7 +315,7 @@ private String Change_profile(String modeToSet)
 				// Vibrate for 300 milliseconds
 				 v.vibrate(300);
 				 notify=1;
-				 notification_message = "Phone set to Vibrate";
+				 notification_message = "Service stopped, phone set to Vibrate";
 		         break;
 		 }
 	 }
@@ -332,7 +333,7 @@ private String Change_profile(String modeToSet)
 				 Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 			     Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
 			     r.play();
-			     notification_message = "Phone set to Normal";
+			     notification_message = "Service stopped, phone set to Normal";
 				 notify=1;
 		         break;
 		 }
@@ -352,7 +353,7 @@ private String Change_profile(String modeToSet)
 				 v.vibrate(300);
 				 notify=1;
 				// Event "[EVENT_NAME]" in progress. Phone set to [Vibrate, Silent, Normal] mode.
-				 notification_message = "Phone set to Vibrate";
+				 notification_message = "Service stopped, phone set to Vibrate";
 		         break;
 		 }
 	 }
