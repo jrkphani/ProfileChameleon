@@ -261,7 +261,7 @@ public class Service_class extends Service {
 			 System.out.println("=======ttttttt========"+eventTime);*/
 				 if((currentTime >= eventSTime ) && (currentTime <= eventETime) && (eventTime <= selectedHrs))
 				 {
-					 System.out.println("event start");
+					 //System.out.println("event start");
 					 	vibrate=1;
 					 	settingsEditor.putInt("is_event_active", 1);
 						settingsEditor.putString("event_title", mCursor.getString(mCursor.getColumnIndex("title")));
