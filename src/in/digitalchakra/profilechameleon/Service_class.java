@@ -5,10 +5,11 @@ import java.util.Date;
 
 import in.digitalchakra.profilechameleon.R;
 
-import android.annotation.SuppressLint;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,10 +22,8 @@ import android.net.Uri;
 import android.os.IBinder;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
-import android.provider.CalendarContract.Calendars;
-import android.provider.CalendarContract.Events;
+import android.provider.CalendarContract.Instances;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
 
 public class Service_class extends Service {
@@ -51,20 +50,39 @@ public class Service_class extends Service {
         int current_mode=2;
         int previous_mode=2;
 		new ArrayList<String>();
+
+		final String[] INSTANCE_PROJECTION = new String[] {
+			    Instances.TITLE,     	// 0
+			    //Instances.EVENT_ID,
+			    //Instances.BEGIN,
+			    //Instances.END,
+			    //Instances.CALENDAR_ID,
+			    //Instances.OWNER_ACCOUNT,
+			    //Instances.ALL_DAY,
+			  };
+			 
+			// The indices for the projection array above.
+			final int PROJECTION_EVENT_TITLE_INDEX = 0;
 		
-		Uri calendaruri = Uri.parse("content://com.android.calendar/events");
-		Cursor mCursor;
-		//String selection = "((" + Calendars.ACCOUNT_NAME + " = ?) AND ("+ Calendars.ACCOUNT_NAME + " = ?) AND ("+ Calendars.ACCOUNT_NAME + " = ?))";
-		//String[] selectionArgs = new String[] {"manimani1014@gmail.com","manikandan@digitalchakra.in","test@gmail.com"}; 
-		final String[] EVENT_PROJECTION = new String[] {
-				    Calendars._ID,
-				    Calendars.ACCOUNT_NAME,
-				    Calendars.CALENDAR_DISPLAY_NAME,
-				    Calendars.OWNER_ACCOUNT,
-				    Events.DTEND,
-				    Events.TITLE,
-				    Events.DTSTART
-				};
+			// Specify the date range you want to search for recurring
+			long startMillis =new Date().getTime();
+			//3 mins  from start time
+			long endMillis = startMillis+180000;
+			
+			String instanceTitle = null;
+			  
+			Cursor mCursor = null;
+			ContentResolver cr = getContentResolver();
+			
+		Uri.Builder builder = Instances.CONTENT_URI.buildUpon();
+		startMillis = new Date().getTime();
+		//36000
+		
+		// Construct the query with the desired date range.
+		
+		ContentUris.appendId(builder, startMillis);
+		ContentUris.appendId(builder, endMillis);
+		
 		int account_selected_size = settings.getInt("accounts_selected_size", 0);
 		int account_selected_all = settings.getInt("accounts_selected_all", 0);
 		if(account_selected_all == 0)
@@ -78,60 +96,64 @@ public class Service_class extends Service {
 					acc_name = settings.getString("acc_selected"+i, null);
 					if(acc_name != null && vibrate == 0)
 					{
-						String selection = "((" + Calendars.ACCOUNT_NAME + " = ?))";
-						String[] selectionArgs = new String[] {acc_name};
-						mCursor = getContentResolver().query(calendaruri, EVENT_PROJECTION, selection, selectionArgs, null);
+						String selection = Instances.OWNER_ACCOUNT + " = ? AND "+Instances.ALL_DAY + " = ?";
+						String[] selectionArgs = new String[] {acc_name,"0"};
+						
+						// Submit the query
+						mCursor =  cr.query(builder.build(), 
+						    INSTANCE_PROJECTION, 
+						    selection, 
+						    selectionArgs,
+						    null);
 						if(mCursor.getCount()>0)
 						 {
+							mCursor.moveToFirst();
 							is_event_active  = settings.getInt("is_event_active", 0);
 							if(is_event_active  == 0)
 							{
 								//get the current mode
 								previous_mode = audio.getRingerMode();
-								//System.out.println("get previous_mode");
-								//System.out.println(previous_mode);
 								settingsEditor.putInt("previous_mode", previous_mode);
 								settingsEditor.commit();
-							} 
-							vibrate = Check_event(mCursor);
-							 if(vibrate==1)
-							 {
-								//get prefer mode
-								String modeToSet = settings.getString("configMode", "VIBRATE");
-								Change_profile(modeToSet);
-							 }
-							 else
-							 {
-								//set to previous mode when there is no event
-								//System.out.println("going normal");
-								//System.out.println(previous_mode);
-								 if(is_event_active == 1)
-								 {
-									 previous_mode = settings.getInt("previous_mode", 2);
-									 current_mode = audio.getRingerMode();
-									 if(current_mode != previous_mode)
-									 {
-										 switch (previous_mode)
-										 {
-										     case AudioManager.RINGER_MODE_SILENT:
-										    	 Change_profile("SILENT");
-										         break;
-										     case AudioManager.RINGER_MODE_VIBRATE:
-										    	 Change_profile("VIBRATE");
-										    	 break;
-										     case AudioManager.RINGER_MODE_NORMAL:
-										    	 Change_profile("NORMAL");
-										    	 break;
-										     default:
-										    	 Change_profile("NORMAL");
-										         break;
-										 }
-									 }
-									 settingsEditor.putInt("is_event_active", 0);
-									 settingsEditor.commit();
-								 }
-							 }
+							}
+							settingsEditor.putInt("is_event_active", 1);
+							settingsEditor.putString("event_title", mCursor.getString(PROJECTION_EVENT_TITLE_INDEX));
+							settingsEditor.commit();
+							String modeToSet = settings.getString("configMode", "VIBRATE");
+							Change_profile(modeToSet);
 						 }
+						else
+						{
+							//set to previous mode when there is no event
+							 if(is_event_active == 1)
+							 {
+								 settingsEditor.putInt("is_event_active", 0);
+								 previous_mode = settings.getInt("previous_mode", 2);
+								 settingsEditor.commit();
+								 current_mode = audio.getRingerMode();
+								 if(current_mode != previous_mode)
+								 {
+									 switch (previous_mode)
+									 {
+									     case AudioManager.RINGER_MODE_SILENT:
+									    	 Change_profile("SILENT");
+									         break;
+									     case AudioManager.RINGER_MODE_VIBRATE:
+									    	 Change_profile("VIBRATE");
+									    	 break;
+									     case AudioManager.RINGER_MODE_NORMAL:
+									    	 Change_profile("NORMAL");
+									    	 break;
+									     default:
+									    	 Change_profile("NORMAL");
+									         break;
+									 }
+								 }
+								
+								 settingsEditor.putString("event_title", null);
+								 settingsEditor.commit();
+							 }
+						}
 						
 					}
 					           
@@ -140,60 +162,68 @@ public class Service_class extends Service {
     	}
     else
     {
-    	//Log.d("all account","all account ===");
-    	mCursor = getContentResolver().query(calendaruri, null, null, null, null);
-    	if(mCursor.getCount()>0)
-		 {							
-			vibrate = Check_event(mCursor);
-			 
-			 if(vibrate==1)
+    	String selection = Instances.ALL_DAY + " = ?";
+		String[] selectionArgs = new String[] {"0"};
+		
+		// Submit the query
+				mCursor =  cr.query(builder.build(), 
+				    INSTANCE_PROJECTION, 
+				    selection, 
+				    selectionArgs,
+				    //null,
+				    //null,
+				    null);
+				
+		if(mCursor.getCount()>0)
+		 {
+			mCursor.moveToFirst();
+			is_event_active  = settings.getInt("is_event_active", 0);
+			if(is_event_active  == 0)
+			{
+				//get the current mode
+				previous_mode = audio.getRingerMode();
+				settingsEditor.putInt("previous_mode", previous_mode);
+				settingsEditor.commit();
+			}
+			settingsEditor.putInt("is_event_active", 1);
+			settingsEditor.putString("event_title", mCursor.getString(PROJECTION_EVENT_TITLE_INDEX));
+			settingsEditor.commit();
+			String modeToSet = settings.getString("configMode", "VIBRATE");
+			System.out.println("here .............."+instanceTitle);
+			Change_profile(modeToSet);
+		 }
+		else
+		{
+			//set to previous mode when there is no event
+			 if(is_event_active == 1)
 			 {
-				//get prefer mode
-					String modeToSet = settings.getString("configMode", "VIBRATE");
-					if(is_event_active  == 0)
-					{
-						//get the current mode
-						previous_mode = audio.getRingerMode();
-						//System.out.println("get previous_mode");
-						//System.out.println(previous_mode);
-						settingsEditor.putInt("previous_mode", previous_mode);
-						settingsEditor.commit();
-					}
-					
-					Change_profile(modeToSet);
-			 }
-			 else
-			 {
-				//set to previous mode when there is no event
-				//System.out.println("going normal");
-				//System.out.println(previous_mode);
-				 if(is_event_active == 1)
+				 settingsEditor.putInt("is_event_active", 0);
+				 previous_mode = settings.getInt("previous_mode", 2);
+				 settingsEditor.commit();
+				 current_mode = audio.getRingerMode();
+				 if(current_mode != previous_mode)
 				 {
-					 settingsEditor.putInt("is_event_active", 0);
-					 settingsEditor.commit();
-					 previous_mode = settings.getInt("previous_mode", 2);
-					 current_mode = audio.getRingerMode();
-					 if(current_mode != previous_mode)
+					 switch (previous_mode)
 					 {
-						 switch (previous_mode)
-						 {
-						     case AudioManager.RINGER_MODE_SILENT:
-						    	 Change_profile("SILENT");
-						         break;
-						     case AudioManager.RINGER_MODE_VIBRATE:
-						    	 Change_profile("VIBRATE");
-						    	 break;
-						     case AudioManager.RINGER_MODE_NORMAL:
-						    	 Change_profile("NORMAL");
-						    	 break;
-						     default:
-						    	 Change_profile("NORMAL");
-						         break;
-						 }
+					     case AudioManager.RINGER_MODE_SILENT:
+					    	 Change_profile("SILENT");
+					         break;
+					     case AudioManager.RINGER_MODE_VIBRATE:
+					    	 Change_profile("VIBRATE");
+					    	 break;
+					     case AudioManager.RINGER_MODE_NORMAL:
+					    	 Change_profile("NORMAL");
+					    	 break;
+					     default:
+					    	 Change_profile("NORMAL");
+					         break;
 					 }
 				 }
-			}
-		 }
+				
+				 settingsEditor.putString("event_title", null);
+				 settingsEditor.commit();
+			 }
+		}
     	
     }
         return START_STICKY;
@@ -215,7 +245,7 @@ public class Service_class extends Service {
 
 	private void notification_top(String notification_message)
     {
-    	//this md will be used to modify the notification
+    	//this mId will be used to modify the notification
         final int mId = 1014;
         Resources appR = this.getResources();
         CharSequence notif_title  = appR.getText(appR.getIdentifier("app_name",
@@ -234,43 +264,7 @@ public class Service_class extends Service {
 		NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		manager.notify(mId, mBuilder.build());
     }
-    
-    private int Check_event(Cursor mCursor)
-    {
-    	mCursor.moveToFirst();
-    	 int vibrate=0;
-    	 SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-    	 SharedPreferences.Editor settingsEditor = settings.edit();
-    	 int selectedHrs = settings.getInt("selectedHrs", 10);
-    	 settingsEditor.putString("event_title",null);
-         settingsEditor.commit();
-		 while(mCursor.moveToNext())
-		 {
-			 long currentTime = new Date().getTime();
-			 long eventSTime = mCursor.getLong(mCursor.getColumnIndex("dtstart"));
-			 long eventETime = mCursor.getLong(mCursor.getColumnIndex("dtend"));
-			 //String eventTitle  = mCursor.getColumnIndex("title");
-			 //System.out.println("event title");
-			 //System.out.println(mCursor.getString(mCursor.getColumnIndex("title"))); 
-			 
-			/*convert to Hrs*/
-			 long eventTime = (eventETime - eventSTime)/3600000;
-			 /*System.out.println("=======title======="+mCursor.getString(mCursor.getColumnIndex("title")));
-			 System.out.println("=======ssssssss======="+eventSTime);
-			 System.out.println("=======eeeeee========"+eventETime);
-			 System.out.println("=======ttttttt========"+eventTime);*/
-				 if((currentTime >= eventSTime ) && (currentTime <= eventETime) && (eventTime <= selectedHrs))
-				 {
-					 //System.out.println("event start");
-					 	vibrate=1;
-					 	settingsEditor.putInt("is_event_active", 1);
-						settingsEditor.putString("event_title", mCursor.getString(mCursor.getColumnIndex("title")));
-						settingsEditor.commit();
-				 }
-
-		 }
-		 return  vibrate;
-    }
+	
     private String Change_profile(String modeToSet)
     {
     	SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
