@@ -39,8 +39,6 @@ public class MainActivity extends Activity {
 public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-    ////
-    final AudioManager audio = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
     int orientation = getResources().getConfiguration().orientation;
     View mainLayout = findViewById(R.id.home_page);
     //TextView status_txt = (TextView) findViewById(R.id.status_txt);
@@ -93,7 +91,11 @@ public void onCreate(Bundle savedInstanceState) {
             {
             	btnStartStop.setBackgroundResource(R.drawable.start);
             	startService(new Intent(getBaseContext(), Service_class.class));
-            	/*every 2 min*/
+            	/*
+            	 1*10*1000 -> every 10 sec
+            	 
+            	 if changing the timer here, also change it in ItudeMobileBroadcastReceiver.java class
+            	 */
                 alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
                 		1*120*1000, pintent);
                 settingsEditor.putInt("serviceStatus", 1);

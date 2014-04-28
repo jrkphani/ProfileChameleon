@@ -41,7 +41,7 @@ public class Service_class extends Service {
 		//setting value 1 , to specify the service status is running 
 		settingsEditor.putInt("serviceStatus", 1);
 		settingsEditor.commit();
-		//System.out.println("service runing .....");
+		System.out.println("service runing .....");
 		int is_event_active  = settings.getInt("is_event_active", 0);
 		
     	AudioManager audio = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
