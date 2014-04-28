@@ -32,7 +32,6 @@ public class ItudeMobileBroadcastReceiver extends BroadcastReceiver
 				AlarmManager alarm = (AlarmManager) mContext.getSystemService(mContext.ALARM_SERVICE);
 				alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
 	            		1*120*1000, pintent);
-				Log.d("BroadcastReceiver","BroadcastReceiver ....run .......");
 			}
 		}
 	}
