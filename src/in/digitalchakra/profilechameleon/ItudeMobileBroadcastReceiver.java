@@ -20,14 +20,14 @@ public class ItudeMobileBroadcastReceiver extends BroadcastReceiver
 		if(Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction()))
 		{
 			mContext = context;
-			SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+			SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(mContext.getApplicationContext());
 			int serviceStatus = settings.getInt("serviceStatus", 0);
 			if(serviceStatus == 1)
 			{
 				Calendar cal = Calendar.getInstance();
 			    cal.add(Calendar.SECOND, 10);
-				Intent newintent = new Intent(context.getApplicationContext(), Service_class.class);
-			    final PendingIntent pintent = PendingIntent.getService(context.getApplicationContext(), 0, newintent,
+				Intent newintent = new Intent(mContext.getApplicationContext(), Service_class.class);
+			    final PendingIntent pintent = PendingIntent.getService(mContext.getApplicationContext(), 0, newintent,
 			            0);
 				AlarmManager alarm = (AlarmManager) mContext.getSystemService(mContext.ALARM_SERVICE);
 				alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
