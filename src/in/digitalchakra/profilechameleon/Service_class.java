@@ -1,10 +1,12 @@
 package in.digitalchakra.profilechameleon;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import in.digitalchakra.profilechameleon.R;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -24,6 +26,7 @@ import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.CalendarContract.Instances;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 
 public class Service_class extends Service {
@@ -83,8 +86,36 @@ public class Service_class extends Service {
 		ContentUris.appendId(builder, startMillis);
 		ContentUris.appendId(builder, endMillis);
 		
-		int account_selected_size = settings.getInt("accounts_selected_size", 0);
+		int account_selected_size = settings.getInt("accounts_selected_size", 0);		
 		int account_selected_all = settings.getInt("accounts_selected_all", 0);
+		int show_rate_me_notification = settings.getInt("show_rate_me_notification", 1);
+		//if not rated previously
+		if(show_rate_me_notification == 1)
+		{
+			int previous_day = settings.getInt("previous_day", 0);
+			Calendar c = Calendar.getInstance(); 
+			int thisday = c.get(Calendar.DAY_OF_MONTH);
+			//previous_day = 100;
+			if(previous_day == 0)
+			{
+				previous_day = thisday;
+			}
+			if(Math.abs(previous_day-thisday) >= 7)
+			{
+				settingsEditor.putInt("previous_day", thisday);
+				settingsEditor.commit();
+				//notification
+				rate_me_notification_top("Rate me on the Play Store");
+			}
+			else
+			{
+				//skip
+			}
+		}
+		else
+		{
+			//skip
+		}
 		if(account_selected_all == 0)
 		{
 			if(account_selected_size>0)
@@ -263,6 +294,42 @@ public class Service_class extends Service {
 
 		NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		manager.notify(mId, mBuilder.build());
+    }
+	private void rate_me_notification_top(String notification_message)
+    {
+    	//this mId will be used to modify the notification
+        final int mId = 1014;
+        Resources appR = this.getResources();
+        CharSequence notif_title  = appR.getText(appR.getIdentifier("app_name",
+        "string", this.getPackageName()));
+        Intent resultIntent = new Intent(getBaseContext(), MainActivity.class);
+        resultIntent.putExtra("show_popup", "yes");
+		PendingIntent resultPendingIntent =
+		    PendingIntent.getActivity(getBaseContext(), 0,resultIntent,PendingIntent.FLAG_UPDATE_CURRENT);
+		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
+		        getApplicationContext()).setSmallIcon(R.drawable.ic_launcher)
+		        .setContentTitle(notif_title)
+		        .setContentText(notification_message)
+		        .setContentIntent(resultPendingIntent)
+		        .setAutoCancel(true);
+
+		NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		manager.notify(mId, mBuilder.build());
+		
+		
+		
+		/*Notification notification = new Notification(R.drawable.ic_launcher, notif_title, 1);
+        Context context = getApplicationContext();
+        Intent notificationIntent = new Intent(this, GoToNotification.class);
+        notificationIntent.putExtra("data1", "My Data 1");
+        notificationIntent.putExtra("data2", "My Data 2");
+        notificationIntent.setAction("myString"+ requestID);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, requestID, notificationIntent, 0);
+        notificationIntent.setData((Uri.parse("mystring"+requestID)));
+                notification.setLatestEventInfo(context, "Notification Demo", requestID + "", contentIntent);
+                notification.flags += Notification.FLAG_ONGOING_EVENT;
+                notification.flags += Notification.FLAG_AUTO_CANCEL;
+            mNotificationManager.notify(NOT_ID, notification);*/
     }
 	
     private String Change_profile(String modeToSet)

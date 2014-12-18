@@ -59,6 +59,15 @@ public class AboutActivity extends Activity {
 				return false;
 			}
 		});
+	     menu.add(1, 1, 0, R.string.rate_me).setOnMenuItemClickListener(new OnMenuItemClickListener() {
+				@Override
+				public boolean onMenuItemClick(MenuItem item) {
+					String appPackage = getBaseContext().getPackageName();
+ 				Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackage));
+ 				startActivity(intent);
+					return false;
+				}
+			});
 		 return true;
 		}
 

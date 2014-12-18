@@ -22,7 +22,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.provider.Settings.System;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
@@ -79,6 +81,16 @@ public void onCreate(Bundle savedInstanceState) {
     //final Button btnStart = (Button) findViewById(R.id.startserviceBtn);
     final Button btnStartStop = (Button) findViewById(R.id.startstopserviceBtn);
     final TextView status_txt = (TextView) findViewById(R.id.status_txt);
+    Bundle extras = getIntent().getExtras();
+    if(extras != null)
+    {
+        String show_popup = extras.getString("show_popup");
+    	//Log.d("extrs",show_popup);
+        if(show_popup.equals("yes"))
+        {
+        	rate_me_popup();
+        }
+    }
     btnStartStop.setOnClickListener(new View.OnClickListener() {
 
         @Override
@@ -249,6 +261,15 @@ public boolean onCreateOptionsMenu(Menu menu)
 			return false;
 		}
 	});
+	menu.add(1, 1, 0, R.string.rate_me).setOnMenuItemClickListener(new OnMenuItemClickListener() {
+		@Override
+		public boolean onMenuItemClick(MenuItem item) {
+			String appPackage = getBaseContext().getPackageName();
+			Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackage));
+			startActivity(intent);
+			return false;
+		}
+	});
   /*   menu.add(1, 2, 1, "Developer").setIcon(R.drawable.notification_icon).setOnMenuItemClickListener(new OnMenuItemClickListener() {
 		
 		@Override
@@ -388,5 +409,49 @@ private void notification_top(String mode_changed, String notification_message)
 
 	NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 	manager.notify(mId, mBuilder.build());
+}
+private void rate_me_popup()
+{
+	AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+
+    alertDialog.setTitle("Rate Profile Chameleon");
+
+    alertDialog.setMessage("We hope you are enjoying Profile Chameleon. Please take a moment to rate us on the Play Store. Thanks for your support!");
+
+    
+    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Later", new DialogInterface.OnClickListener() {
+
+        public void onClick(DialogInterface dialog, int id) {
+        	SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        	SharedPreferences.Editor settingsEditor = settings.edit();
+			Calendar c = Calendar.getInstance(); 
+			int thisday = c.get(Calendar.DAY_OF_MONTH);
+        	settingsEditor.putInt("previous_day", thisday);
+			settingsEditor.commit();
+      }});
+    
+    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "No Thanks", new DialogInterface.OnClickListener() {
+
+        public void onClick(DialogInterface dialog, int id) {
+			SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        	SharedPreferences.Editor settingsEditor = settings.edit();
+        	settingsEditor.putInt("show_rate_me_notification", 0);
+			settingsEditor.commit();
+
+      }});
+    
+    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Rate Now", new DialogInterface.OnClickListener() {
+
+      public void onClick(DialogInterface dialog, int id) {
+    	SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+      	SharedPreferences.Editor settingsEditor = settings.edit();
+      	settingsEditor.putInt("show_rate_me_notification", 0);
+      	settingsEditor.commit();
+    	String appPackage = getBaseContext().getPackageName();
+    	Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackage));
+    	startActivity(intent);
+
+    } });     
+    alertDialog.show();
 }
 }

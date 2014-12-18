@@ -72,6 +72,7 @@ public final class R {
         public static final int description_main1=0x7f050004;
         public static final int description_main2=0x7f050005;
         public static final int hello_world=0x7f050002;
+        public static final int rate_me=0x7f05000c;
         public static final int selectHrs=0x7f05000b;
         public static final int title_activity_about=0x7f050008;
         public static final int title_activity_config=0x7f050003;

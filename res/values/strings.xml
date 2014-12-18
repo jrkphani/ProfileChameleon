@@ -20,5 +20,6 @@
 	<string name="dc">Developed by</string>
 
     <string name="selectHrs">Maximum event time</string>
+    <string name="rate_me">Rate Me</string>
 
 </resources>

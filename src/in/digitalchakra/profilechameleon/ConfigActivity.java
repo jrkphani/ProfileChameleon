@@ -15,6 +15,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Patterns;
@@ -385,6 +386,15 @@ public class ConfigActivity extends Activity {
 				//Toast.makeText(getApplicationContext(), "About Digitalchakra page ...", Toast.LENGTH_LONG).show();
 				Intent Configintent = new Intent(getBaseContext(),AboutActivity.class);
 	        	startActivity(Configintent);
+				return false;
+			}
+		});
+		menu.add(1, 1, 0, R.string.rate_me).setOnMenuItemClickListener(new OnMenuItemClickListener() {
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				String appPackage = getBaseContext().getPackageName();
+				Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackage));
+				startActivity(intent);
 				return false;
 			}
 		});
