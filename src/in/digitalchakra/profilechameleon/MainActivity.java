@@ -9,7 +9,6 @@ import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -41,10 +40,6 @@ public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     int orientation = getResources().getConfiguration().orientation;
- // Monitor launch times and interval from installation
-    RateThisApp.onStart(this);
-    // If the criteria is satisfied, "Rate this app" dialog will be shown
-    RateThisApp.showRateDialogIfNeeded(this);
     View mainLayout = findViewById(R.id.home_page);
     //TextView status_txt = (TextView) findViewById(R.id.status_txt);
     
@@ -273,38 +268,10 @@ public boolean onCreateOptionsMenu(Menu menu)
 			return false;
 		}
 	});
-     menu.add(1, 1, 0, R.string.rate_me).setOnMenuItemClickListener(new OnMenuItemClickListener() {
-			@Override
-			public boolean onMenuItemClick(MenuItem item) {
-				Intent intent = new Intent(Intent.ACTION_VIEW);
-				///Try Google play
-				intent.setData(Uri.parse("market://details?id=in.digitalchakra.profilechameleon"));
-				if (!MyStartActivity(intent)) {
-				    //Market (Google play) app seems not installed, let's try to open a webbrowser
-				    intent.setData(Uri.parse("https://play.google.com/store/apps/details?id=in.digitalchakra.profilechameleon"));
-				    if (!MyStartActivity(intent)) {
-				        //Well if this also fails, we have run out of options, inform the user.
-				        Toast.makeText(getBaseContext(), "Could not open Android market, please install the market app.", Toast.LENGTH_SHORT).show();
-				    }
-				}
-				return false;
-			}
-		});
      //menu.add(1, 4, 3, "Item4").setIcon(R.drawable.notification_icon);
      //menu.add(1, 5, 4, "Item5").setIcon(R.drawable.notification_icon);
 	 return true;
 	}
-private boolean MyStartActivity(Intent aIntent) {
-    try
-    {
-        startActivity(aIntent);
-        return true;
-    }
-    catch (ActivityNotFoundException e)
-    {
-        return false;
-    }
-}
 
 private String Change_profile(String modeToSet)
 {
